@@ -55,7 +55,7 @@ Release files are built by GitHub Actions from the tagged source, after the test
 
 - **Checksums:** each release includes `SHA256SUMS`. Check a download with `sha256sum -c SHA256SUMS --ignore-missing` (on macOS, `shasum -a 256 -c SHA256SUMS --ignore-missing`).
 - **Build provenance:** each file has a signed attestation linking it to the commit and workflow that built it. Verify it with the GitHub CLI: `gh attestation verify email-parser.wasm --repo neblexhq/neblex-wasm-modules`.
-- **Reproducible builds:** from v0.2.1, `./build.sh` and the release workflow use the same compiler settings (build paths are mapped to fixed names), so building a tagged version with the Rust version named in the release notes gives byte-identical files. Rebuild a module yourself and compare its checksum with `SHA256SUMS`.
+- **Reproducible builds:** release files are built on x86-64 Linux with build paths mapped to fixed names. `./build.sh` uses the same settings (in an x86-64 container, emulated on other machines such as Apple silicon Macs), so building a tagged version with the Rust version named in its release notes gives files byte-identical to the release. Compare them with `SHA256SUMS`.
 
 ## Why WebAssembly for custom logic
 
