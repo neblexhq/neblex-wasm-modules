@@ -1,0 +1,100 @@
+{
+  "records": [
+    {
+      "_record_type": "header",
+      "file_date": "2026-11-06",
+      "batch": "BATCH-7"
+    },
+    {
+      "_record_type": "detail",
+      "seq": 1,
+      "customer": "ACME CORP",
+      "amount": 1.2,
+      "due_date": "2026-11-01"
+    },
+    {
+      "_record_type": "detail",
+      "seq": 2,
+      "customer": "GLOBEX INC",
+      "amount": -0.11,
+      "due_date": null
+    },
+    {
+      "_record_type": "trailer",
+      "detail_count": 2
+    }
+  ],
+  "_layout": {
+    "record_types": [
+      {
+        "name": "header",
+        "when": {
+          "start": 1,
+          "equals": "H"
+        },
+        "columns": [
+          {
+            "name": "file_date",
+            "start": 2,
+            "length": 8,
+            "type": "date"
+          },
+          {
+            "name": "batch",
+            "start": 10,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "name": "detail",
+        "when": {
+          "start": 1,
+          "equals": "D"
+        },
+        "columns": [
+          {
+            "name": "seq",
+            "start": 2,
+            "length": 4,
+            "type": "integer"
+          },
+          {
+            "name": "customer",
+            "start": 6,
+            "length": 14
+          },
+          {
+            "name": "amount",
+            "start": 20,
+            "length": 7,
+            "type": "zoned",
+            "scale": 2
+          },
+          {
+            "name": "due_date",
+            "start": 27,
+            "length": 8,
+            "type": "date",
+            "pad": "0"
+          }
+        ]
+      },
+      {
+        "name": "trailer",
+        "when": {
+          "start": 1,
+          "equals": "T"
+        },
+        "columns": [
+          {
+            "name": "detail_count",
+            "start": 2,
+            "length": 2,
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  }
+}

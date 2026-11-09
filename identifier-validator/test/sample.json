@@ -1,0 +1,5 @@
+[
+  { "supplier": "Initech", "iban": "DE89 3704 0044 0532 0130 00", "vat": "GB123456789", "routing_number": "021000021" },
+  { "supplier": "Globex", "iban": "GB82WEST12345698765431", "barcode": "4006381333931", "lei": "5493001KJTIIGC8Y1R12" },
+  { "sku": "A-1", "code": "4006381333932", "_checks": { "code": "gtin" } }
+]

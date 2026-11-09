@@ -1,0 +1,11 @@
+{
+  "xml": "<?xml version=\"1.0\"?><SyncSalesOrder xmlns=\"http://schema.infor.com/InforOAGIS/2\" releaseID=\"9.2\"><DataArea><SalesOrder><SalesOrderHeader><DocumentID><ID accountingEntity=\"100\">SO-1001</ID></DocumentID><CustomerParty><Name>Acme &amp; Sons</Name></CustomerParty></SalesOrderHeader><SalesOrderLine><LineNumber>1</LineNumber><Item><ItemID><ID>WIDGET-9</ID></ItemID></Item><Quantity unitCode=\"EA\">5</Quantity></SalesOrderLine><SalesOrderLine><LineNumber>2</LineNumber><Item><ItemID><ID>BOLT-2</ID></ItemID></Item><Quantity unitCode=\"BX\">2.5</Quantity></SalesOrderLine></SalesOrder></DataArea></SyncSalesOrder>",
+  "_options": {
+    "records": "DataArea/SalesOrder/SalesOrderLine",
+    "include": {
+      "order_id": "DataArea/SalesOrder/SalesOrderHeader/DocumentID/ID",
+      "customer": "//Name"
+    },
+    "numbers": true
+  }
+}
