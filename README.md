@@ -4,7 +4,7 @@
 
 Sandboxed WebAssembly (WASM) modules for [Neblex Integration Fabric](https://www.neblex.com/integration-fabric). A module adds custom logic to an integration flow, such as parsing a file format or validating data, without running unreviewed code on your servers. Each module gets JSON in, returns JSON out, and cannot reach the network, the file system or anything else outside its own memory.
 
-This repository has a starter template and eighteen ready-to-use modules, all written in Rust.
+This repository has a starter template and twenty ready-to-use modules, all written in Rust.
 
 ### Turn unstructured data into records
 
@@ -16,6 +16,8 @@ This repository has a starter template and eighteen ready-to-use modules, all wr
 | [json-repair](json-repair) | Turns almost-JSON from AI models (code fences, single quotes, trailing commas, cut-off output) into valid JSON and lists every fix | about 125 KB |
 | [html-to-text](html-to-text) | Turns HTML emails, pages and rich-text fields into clean text or Markdown, keeping headings, lists, tables and links | about 105 KB |
 | [key-value-extractor](key-value-extractor) | Pulls labeled values ("Invoice No:", "Total Due") and aligned tables out of document text, typed as numbers, amounts or dates | about 150 KB |
+| [ics-parser](ics-parser) | Turns calendar invites and feeds (.ics) into events with organizer, attendees, times and time zones | about 115 KB |
+| [vcard-parser](vcard-parser) | Turns contact cards (.vcf, versions 2.1 to 4.0) into contacts with names, emails, phones and addresses | about 125 KB |
 | [log-parser](log-parser) | Parses Apache/nginx access logs, syslog (RFC 3164 and 5424), key=value and JSON log lines into records | about 135 KB |
 | [text-chunker](text-chunker) | Splits long text into overlapping chunks along headings, paragraphs and sentences, with stable IDs, ready to embed for retrieval (RAG) | about 100 KB |
 

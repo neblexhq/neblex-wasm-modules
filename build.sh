@@ -6,7 +6,7 @@
 # match the release files built on GitHub.
 set -e
 cd "$(dirname "$0")"
-mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser pii-redactor csv-cleaner text-chunker record-diff html-to-text key-value-extractor address-standardizer uom-converter log-parser}"
+mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser pii-redactor csv-cleaner text-chunker record-diff html-to-text key-value-extractor address-standardizer uom-converter log-parser ics-parser vcard-parser}"
 mkdir -p dist
 for m in $mods; do
   docker run --rm --platform linux/amd64 -v "$PWD/$m":/src -v cargo-cache-amd64:/usr/local/cargo/registry -w /src rust:1-slim \

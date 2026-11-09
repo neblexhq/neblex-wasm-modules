@@ -1,0 +1,3 @@
+{
+  "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nMETHOD:REQUEST\r\nBEGIN:VEVENT\r\nUID:abc-123@example.com\r\nDTSTART;TZID=America/New_York:20261112T100000\r\nDTEND;TZID=America/New_York:20261112T103000\r\nSUMMARY:Order 45-1180 review\\, with Globex\r\nDESCRIPTION:Agenda:\\n1. Damaged box\\n2. Replacement\r\nLOCATION:https://meet.example.com/abc\r\nORGANIZER;CN=\"Doe, Jane\":mailto:jane.doe@example.com\r\nATTENDEE;CN=Sam Lee;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE:mailto:sam@globex.com\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:holiday-1\r\nDTSTART;VALUE=DATE:20261126\r\nSUMMARY:Office closed\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}
