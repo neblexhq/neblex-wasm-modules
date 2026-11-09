@@ -1,0 +1,6 @@
+{
+  "html": "<html><head><title>Your order &amp; receipt</title><style>p{color:red}</style></head><body><h1>Order update</h1><p>Your order <b>SO-1001</b> has shipped.</p><ul><li>Widget x 2</li><li>Bolt x 5</li></ul><p>Track it <a href=\"https://example.com/t/1\">here</a>.</p><table><tr><th>Item</th><th>Qty</th></tr><tr><td>Widget</td><td>2</td></tr></table></body></html>",
+  "_options": {
+    "format": "text"
+  }
+}

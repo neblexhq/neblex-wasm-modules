@@ -1,0 +1,40 @@
+{
+  "text": "ACME SUPPLY CO.                      INVOICE\nInvoice No: INV-2026-0091            Invoice Date: Nov 3, 2026\nPO Number: 45-1180                   Due Date: 03/12/2026\nBill To:\nGlobex Corporation\n\nItem          Description          Qty    Unit Price    Amount\nWID-9         Widget, blue           2        500.00   1,000.00\nBLT-2         Bolt pack              5         50.00     250.00\n\nSubtotal:   1,250.00\nTotal Due:  USD 1,250.00\n",
+  "_options": {
+    "fields": {
+      "invoice_number": [
+        "invoice no",
+        "invoice number"
+      ],
+      "invoice_date": {
+        "labels": [
+          "invoice date"
+        ],
+        "type": "date"
+      },
+      "due_date": {
+        "labels": [
+          "due date"
+        ],
+        "type": "date"
+      },
+      "po_number": [
+        "po number",
+        "purchase order"
+      ],
+      "bill_to": [
+        "bill to"
+      ],
+      "total": {
+        "labels": [
+          "total due",
+          "amount due",
+          "total"
+        ],
+        "type": "amount"
+      }
+    },
+    "date_order": "dmy",
+    "tables": true
+  }
+}

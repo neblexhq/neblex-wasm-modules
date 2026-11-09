@@ -4,7 +4,7 @@
 
 Sandboxed WebAssembly (WASM) modules for [Neblex Integration Fabric](https://www.neblex.com/integration-fabric). A module adds custom logic to an integration flow, such as parsing a file format or validating data, without running unreviewed code on your servers. Each module gets JSON in, returns JSON out, and cannot reach the network, the file system or anything else outside its own memory.
 
-This repository has a starter template and thirteen ready-to-use modules, all written in Rust.
+This repository has a starter template and eighteen ready-to-use modules, all written in Rust.
 
 ### Turn unstructured data into records
 
@@ -14,6 +14,9 @@ This repository has a starter template and thirteen ready-to-use modules, all wr
 | [text-extractor](text-extractor) | Finds emails, URLs, phone numbers, dates, amounts, IBANs, parcel tracking numbers and PO or invoice numbers in free text, with check digits verified | about 165 KB |
 | [pdf-to-json](pdf-to-json) | Extracts the text and metadata from a text-based PDF passed as base64 | about 175 KB |
 | [json-repair](json-repair) | Turns almost-JSON from AI models (code fences, single quotes, trailing commas, cut-off output) into valid JSON and lists every fix | about 125 KB |
+| [html-to-text](html-to-text) | Turns HTML emails, pages and rich-text fields into clean text or Markdown, keeping headings, lists, tables and links | about 105 KB |
+| [key-value-extractor](key-value-extractor) | Pulls labeled values ("Invoice No:", "Total Due") and aligned tables out of document text, typed as numbers, amounts or dates | about 150 KB |
+| [log-parser](log-parser) | Parses Apache/nginx access logs, syslog (RFC 3164 and 5424), key=value and JSON log lines into records | about 135 KB |
 | [text-chunker](text-chunker) | Splits long text into overlapping chunks along headings, paragraphs and sentences, with stable IDs, ready to embed for retrieval (RAG) | about 100 KB |
 
 ### Read and write file and message formats
@@ -24,6 +27,7 @@ This repository has a starter template and thirteen ready-to-use modules, all wr
 | [xml-to-json](xml-to-json) | Converts XML (ERP messages, SOAP, exports) to JSON, optionally one record per repeating element with header fields copied on | about 160 KB |
 | [fixed-width-parser](fixed-width-parser) | Turns fixed-width text files (mainframe extracts, bank and legacy ERP files) into records, including header/detail/trailer lines, implied decimals and COBOL signed numbers | about 115 KB |
 | [fixed-width-writer](fixed-width-writer) | Writes records back out as a fixed-width file, using the same layout as the parser | about 165 KB |
+| [uom-converter](uom-converter) | Converts quantities between units of measure and your own pack sizes (case, box, pallet), chained as needed | about 125 KB |
 | [gs1-barcode-parser](gs1-barcode-parser) | Splits GS1-128, DataMatrix and QR barcode scans into GTIN, batch, expiry, serial, weights and SSCC, with check digits verified | about 100 KB |
 
 ### Protect and compare
@@ -33,10 +37,11 @@ This repository has a starter template and thirteen ready-to-use modules, all wr
 | [pii-redactor](pii-redactor) | Replaces emails, phone numbers, card numbers, SSNs, IBANs, IP addresses and names you list with placeholders before text reaches an AI model or a log | about 140 KB |
 | [record-diff](record-diff) | Compares an incoming record with the stored version and returns only the changed fields, a patch and old/new values | about 120 KB |
 
-### Validate
+### Validate and standardize
 
 | Module | What it does | Size |
 |---|---|---|
+| [address-standardizer](address-standardizer) | Standardizes US and Canadian addresses USPS-style (suffixes, directions, units, states, ZIP and postal codes) and country names; formats, doesn't verify | about 125 KB |
 | [identifier-validator](identifier-validator) | Validates and normalizes IBANs, EU and UK VAT number formats, GTIN/EAN/UPC barcodes, US ABA routing numbers and LEIs on each record | about 105 KB |
 
 ### Start your own

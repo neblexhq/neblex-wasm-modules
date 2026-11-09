@@ -1,0 +1,36 @@
+{
+  "order": "SO-1001",
+  "lines": [
+    {
+      "sku": "W-9",
+      "qty": 3,
+      "uom": "CS"
+    },
+    {
+      "sku": "B-2",
+      "qty": 30,
+      "uom": "EA"
+    },
+    {
+      "sku": "P-1",
+      "qty": 1,
+      "uom": "PLT"
+    }
+  ],
+  "_options": {
+    "lines": "lines",
+    "quantity_field": "qty",
+    "from_field": "uom",
+    "to": "EA",
+    "into": "qty_ea",
+    "packs": {
+      "CS": {
+        "EA": 12
+      },
+      "PLT": {
+        "CS": 40
+      }
+    },
+    "places": 0
+  }
+}

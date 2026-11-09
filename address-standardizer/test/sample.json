@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "line1": "123 north main street apt 4b",
+    "city": "springfield",
+    "state": "Illinois",
+    "zip": "2134"
+  },
+  {
+    "id": 2,
+    "line1": "P.O. Box 4411",
+    "city": "Austin",
+    "state": "tx",
+    "zip": "787011234"
+  },
+  {
+    "id": 3,
+    "line1": "500 West Georgia Street, Suite 1000",
+    "city": "Vancouver",
+    "state": "British Columbia",
+    "zip": "v6b4n8",
+    "country": "Canada"
+  }
+]
