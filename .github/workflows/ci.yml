@@ -29,7 +29,7 @@ jobs:
             m=${m%/}
             [ -f "$m/Cargo.toml" ] || continue
             echo "::group::$m"
-            (cd "$m" && cargo test --lib --locked && cargo build --release --locked --target wasm32-unknown-unknown --lib)
+            (cd "$m" && cargo test --lib --locked && RUSTFLAGS="--remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo --remap-path-prefix=$PWD=/build" cargo build --release --locked --target wasm32-unknown-unknown --lib)
             cp "$m"/target/wasm32-unknown-unknown/release/*.wasm "dist/$m.wasm"
             echo "::endgroup::"
           done
@@ -37,6 +37,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Checksums
+        run: cd dist && sha256sum *.wasm
 
       - name: Contract check
         run: |

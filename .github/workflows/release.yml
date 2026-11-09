@@ -30,7 +30,7 @@ jobs:
           for m in */; do
             m=${m%/}
             [ -f "$m/Cargo.toml" ] || continue
-            (cd "$m" && cargo test --lib --locked && cargo build --release --locked --target wasm32-unknown-unknown --lib)
+            (cd "$m" && cargo test --lib --locked && RUSTFLAGS="--remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo --remap-path-prefix=$PWD=/build" cargo build --release --locked --target wasm32-unknown-unknown --lib)
             cp "$m"/target/wasm32-unknown-unknown/release/*.wasm "dist/$m.wasm"
           done
           ls -l dist
