@@ -1,0 +1,9 @@
+{
+  "doc_id": "returns-policy",
+  "text": "# Returns\n\nReturn rule 0: items must be returned within 30 days in their original packaging. Return rule 1: items must be returned within 30 days in their original packaging. Return rule 2: items must be returned within 30 days in their original packaging. Return rule 3: items must be returned within 30 days in their original packaging. Return rule 4: items must be returned within 30 days in their original packaging. Return rule 5: items must be returned within 30 days in their original packaging.\n\n## Refunds\n\nRefund rule 0: items must be returned within 30 days in their original packaging. Refund rule 1: items must be returned within 30 days in their original packaging. Refund rule 2: items must be returned within 30 days in their original packaging. Refund rule 3: items must be returned within 30 days in their original packaging.\n\n- Gift cards can't be refunded.\n- Shipping costs are refunded only for damaged items.\n",
+  "_options": {
+    "max_chars": 500,
+    "overlap_chars": 100,
+    "id_field": "doc_id"
+  }
+}

@@ -124,16 +124,16 @@ fn extract_record(record: Value) -> Value {
     Value::Object(m)
 }
 
-pub struct Ent {
-    pub kind: String,
-    pub raw: String,
-    pub normalized: Value,
-    pub start: usize,
-    pub end: usize,
-    pub extra: Option<Value>,
+struct Ent {
+    kind: String,
+    raw: String,
+    normalized: Value,
+    start: usize,
+    end: usize,
+    extra: Option<Value>,
 }
 
-pub fn extract(text: &str, opt: &Options) -> Vec<Ent> {
+fn extract(text: &str, opt: &Options) -> Vec<Ent> {
     let s: Vec<char> = text.chars().collect();
     let on = |t: &str| opt.types.iter().any(|x| x == t);
     let mut out: Vec<Ent> = Vec::new();

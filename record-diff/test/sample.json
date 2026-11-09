@@ -1,0 +1,31 @@
+{
+  "old": {
+    "id": 7,
+    "email": "Jane@Example.com",
+    "phone": "",
+    "amount": "1250.00",
+    "address": {
+      "city": "Boston",
+      "zip": "02134"
+    },
+    "updated_at": "2026-11-01"
+  },
+  "new": {
+    "id": 7,
+    "email": "jane@example.com",
+    "phone": null,
+    "amount": 1250,
+    "address": {
+      "city": "Cambridge",
+      "zip": "02134"
+    },
+    "updated_at": "2026-11-09",
+    "tier": "gold"
+  },
+  "_options": {
+    "ignore": [
+      "updated_at"
+    ],
+    "case_insensitive": true
+  }
+}

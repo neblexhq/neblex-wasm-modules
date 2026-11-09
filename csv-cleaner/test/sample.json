@@ -1,0 +1,7 @@
+{
+  "csv": "﻿Kundenexport\nErstellt am 09.11.2026\n\nKundennr;Name;PLZ;Betrag\n1001;Müller GmbH;01067;1.234,56\n1002;\"Schmidt; Söhne\";80331;99,90\nSumme;;;1.334,46\n",
+  "_options": {
+    "numbers": true,
+    "snake_case_headers": true
+  }
+}

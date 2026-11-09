@@ -1,0 +1,65 @@
+# Builds and publishes a release when a version tag (v1.2.3) is pushed. GitHub builds every
+# module from the tagged source, runs the tests and the contract check, writes SHA256SUMS,
+# records a signed build provenance attestation for each file, and attaches them all to the
+# release. Release notes come from .github/release-notes/<tag>.md when that file exists.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust and the wasm32 target
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup target add wasm32-unknown-unknown
+
+      - name: Test and build every module
+        run: |
+          mkdir -p dist
+          for m in */; do
+            m=${m%/}
+            [ -f "$m/Cargo.toml" ] || continue
+            (cd "$m" && cargo test --lib --locked && cargo build --release --locked --target wasm32-unknown-unknown --lib)
+            cp "$m"/target/wasm32-unknown-unknown/release/*.wasm "dist/$m.wasm"
+          done
+          ls -l dist
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Contract check
+        run: |
+          pip install --quiet wasmtime
+          python -I test/contract.py dist
+
+      - name: Checksums
+        run: cd dist && sha256sum *.wasm > SHA256SUMS && cat SHA256SUMS
+
+      - name: Build provenance attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/*.wasm
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          notes=".github/release-notes/$TAG.md"
+          if [ -f "$notes" ]; then
+            gh release create "$TAG" --title "$TAG" --notes-file "$notes" dist/*.wasm dist/SHA256SUMS
+          else
+            gh release create "$TAG" --title "$TAG" --generate-notes dist/*.wasm dist/SHA256SUMS
+          fi

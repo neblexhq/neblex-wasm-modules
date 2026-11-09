@@ -1,0 +1,44 @@
+# Runs every module's unit tests, builds it for wasm32-unknown-unknown, and checks the built
+# file against the Neblex contract (no imports; memory, alloc and invoke exported; the sample
+# input returns valid JSON). Runs on every push to main and on every pull request.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust and the wasm32 target
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup target add wasm32-unknown-unknown
+
+      - name: Unit tests and builds
+        run: |
+          mkdir -p dist
+          for m in */; do
+            m=${m%/}
+            [ -f "$m/Cargo.toml" ] || continue
+            echo "::group::$m"
+            (cd "$m" && cargo test --lib --locked && cargo build --release --locked --target wasm32-unknown-unknown --lib)
+            cp "$m"/target/wasm32-unknown-unknown/release/*.wasm "dist/$m.wasm"
+            echo "::endgroup::"
+          done
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Contract check
+        run: |
+          pip install --quiet wasmtime
+          python -I test/contract.py dist

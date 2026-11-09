@@ -3,7 +3,7 @@
 # Usage: ./build.sh [module ...]
 set -e
 cd "$(dirname "$0")"
-mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser}"
+mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser pii-redactor csv-cleaner text-chunker record-diff}"
 mkdir -p dist
 for m in $mods; do
   docker run --rm -v "$PWD/$m":/src -v cargo-cache:/usr/local/cargo/registry -w /src rust:1-slim \

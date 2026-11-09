@@ -1,8 +1,10 @@
 # Neblex WebAssembly modules
 
+[![CI](https://github.com/neblexhq/neblex-wasm-modules/actions/workflows/ci.yml/badge.svg)](https://github.com/neblexhq/neblex-wasm-modules/actions/workflows/ci.yml)
+
 Sandboxed WebAssembly (WASM) modules for [Neblex Integration Fabric](https://www.neblex.com/integration-fabric). A module adds custom logic to an integration flow, such as parsing a file format or validating data, without running unreviewed code on your servers. Each module gets JSON in, returns JSON out, and cannot reach the network, the file system or anything else outside its own memory.
 
-This repository has a starter template and nine ready-to-use modules, all written in Rust.
+This repository has a starter template and thirteen ready-to-use modules, all written in Rust.
 
 ### Turn unstructured data into records
 
@@ -12,15 +14,24 @@ This repository has a starter template and nine ready-to-use modules, all writte
 | [text-extractor](text-extractor) | Finds emails, URLs, phone numbers, dates, amounts, IBANs, parcel tracking numbers and PO or invoice numbers in free text, with check digits verified | about 165 KB |
 | [pdf-to-json](pdf-to-json) | Extracts the text and metadata from a text-based PDF passed as base64 | about 175 KB |
 | [json-repair](json-repair) | Turns almost-JSON from AI models (code fences, single quotes, trailing commas, cut-off output) into valid JSON and lists every fix | about 125 KB |
+| [text-chunker](text-chunker) | Splits long text into overlapping chunks along headings, paragraphs and sentences, with stable IDs, ready to embed for retrieval (RAG) | about 100 KB |
 
 ### Read and write file and message formats
 
 | Module | What it does | Size |
 |---|---|---|
+| [csv-cleaner](csv-cleaner) | Reads messy CSV exports: detects the delimiter, header row and decimal style, skips title and totals rows, and reports rows it couldn't read | about 135 KB |
 | [xml-to-json](xml-to-json) | Converts XML (ERP messages, SOAP, exports) to JSON, optionally one record per repeating element with header fields copied on | about 160 KB |
 | [fixed-width-parser](fixed-width-parser) | Turns fixed-width text files (mainframe extracts, bank and legacy ERP files) into records, including header/detail/trailer lines, implied decimals and COBOL signed numbers | about 115 KB |
 | [fixed-width-writer](fixed-width-writer) | Writes records back out as a fixed-width file, using the same layout as the parser | about 165 KB |
 | [gs1-barcode-parser](gs1-barcode-parser) | Splits GS1-128, DataMatrix and QR barcode scans into GTIN, batch, expiry, serial, weights and SSCC, with check digits verified | about 100 KB |
+
+### Protect and compare
+
+| Module | What it does | Size |
+|---|---|---|
+| [pii-redactor](pii-redactor) | Replaces emails, phone numbers, card numbers, SSNs, IBANs, IP addresses and names you list with placeholders before text reaches an AI model or a log | about 140 KB |
+| [record-diff](record-diff) | Compares an incoming record with the stored version and returns only the changed fields, a patch and old/new values | about 120 KB |
 
 ### Validate
 
@@ -39,6 +50,12 @@ Each module works by rules, patterns and check digits, so results are repeatable
 ## Download
 
 Built `.wasm` files for every module are attached to the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest). Download the one you need and upload it to Neblex; no build tools are required. To change a module, build it from source as described below.
+
+Release files are built by GitHub Actions from the tagged source, after the tests and a contract check pass, so you can confirm what you're running:
+
+- **Checksums:** each release includes `SHA256SUMS`. Check a download with `sha256sum -c SHA256SUMS --ignore-missing` (on macOS, `shasum -a 256 -c SHA256SUMS --ignore-missing`).
+- **Build provenance:** each file has a signed attestation linking it to the commit and workflow that built it. Verify it with the GitHub CLI: `gh attestation verify email-parser.wasm --repo neblexhq/neblex-wasm-modules`.
+- **Reproducible builds:** building a module from the same source with the same Rust version gives a byte-identical file, so you can rebuild it yourself and compare checksums.
 
 ## Why WebAssembly for custom logic
 

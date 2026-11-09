@@ -1,0 +1,9 @@
+{
+  "text": "Hi, I'm Jane Doe (jane.doe@example.com, +1 415-555-0132). Card 4111 1111 1111 1111 was charged twice for order 4411520091. Please refund to DE89 3704 0044 0532 0130 00.",
+  "_options": {
+    "terms": [
+      "Jane Doe"
+    ],
+    "return_map": true
+  }
+}
