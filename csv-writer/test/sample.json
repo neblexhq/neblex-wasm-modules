@@ -1,0 +1,43 @@
+{
+  "records": [
+    {
+      "sku": "A-1",
+      "name": "Widget, blue",
+      "price": 9.5,
+      "customer": {
+        "name": "Müller GmbH"
+      }
+    },
+    {
+      "sku": "B-2",
+      "name": "=cmd|' /C calc'!A0",
+      "price": 12,
+      "customer": {
+        "name": "Globex"
+      }
+    }
+  ],
+  "_options": {
+    "delimiter": ";",
+    "decimal": ",",
+    "bom": true,
+    "columns": [
+      {
+        "field": "sku",
+        "header": "Artikel"
+      },
+      {
+        "field": "name",
+        "header": "Bezeichnung"
+      },
+      {
+        "field": "customer.name",
+        "header": "Kunde"
+      },
+      {
+        "field": "price",
+        "header": "Preis"
+      }
+    ]
+  }
+}
