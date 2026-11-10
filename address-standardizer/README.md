@@ -43,6 +43,12 @@ More examples from the tests: `P.O. Box 4411` → `PO BOX 4411`; `789 Elm St. N.
 
 Coverage: the common USPS street suffixes, directions and unit designators; the 50 states, DC and US territories; the Canadian provinces and territories; and country names for the US, Canada, Mexico, the UK, Germany, France, the Netherlands and Australia (others are kept as written and flagged).
 
+## Use it in a Neblex flow
+
+1. Download `address-standardizer.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `address-standardizer`.
+3. Add a step that uses the module's **Run module** operation after a CRM, ERP or form step that returns addresses. Map the address fields (`line1`, `city`, `state`, `zip`, `country`), or set `_options.fields` to your own names.
+
 ## Build and test
 
 ```sh
