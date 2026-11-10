@@ -44,6 +44,12 @@ One record or an array of records, each with the vCard text (one or many cards):
 
 Photos and other binary properties are skipped.
 
+## Use it in a Neblex flow
+
+1. Download `vcard-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `vcard-parser`.
+3. Add a step that uses the module's **Run module** operation after a mail, CRM or storage step that returns a .vcf contact card. Map it to `vcf`.
+
 ## Build and test
 
 ```sh
