@@ -41,6 +41,12 @@ One record or an array of records, each with log text (one entry per line):
 - JSON lines are kept as they are, with `_format` and `_line` added.
 - `errors` lists lines that match no format, with their line number and first 200 characters.
 
+## Use it in a Neblex flow
+
+1. Download `log-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `log-parser`.
+3. Add a step that uses the module's **Run module** operation after a storage, SFTP or webhook step that returns log lines. Map them to `text`.
+
 ## Build and test
 
 ```sh
