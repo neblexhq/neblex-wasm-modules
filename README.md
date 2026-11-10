@@ -87,7 +87,7 @@ A Neblex module is a core WebAssembly module (not a component) that:
 
 The input is the step's JSON (one record or an array of records). The output must be valid JSON. The modules here pass each record through and add their results as new fields, so later steps in the flow can filter or route on them.
 
-Keep modules small. Neblex accepted modules up to about 680 KB in our tests and rejected larger ones. The modules here are 60 to 180 KB; avoid crates that pull in compression, crypto or Unicode tables you don't need. An early pdf-to-json built on a full PDF library was 1.4 MB.
+Keep modules small. Neblex accepted modules up to about 680 KB in our tests and rejected larger ones. The modules here are 60 to 260 KB; avoid crates that pull in compression, crypto or Unicode tables you don't need. An early pdf-to-json built on a full PDF library was 1.4 MB.
 
 ## Build
 
@@ -98,11 +98,11 @@ You need Docker. No local Rust install is required.
 ./build.sh identifier-validator    # one module
 ```
 
-The `.wasm` files land in `dist/`.
+The `.wasm` files land in `dist/`. Builds always run as x86-64 Linux, so a local build is byte-identical to the release file. On Apple Silicon and other ARM machines Docker emulates x86-64, which makes builds slower.
 
 ## Test locally
 
-`test/call.py` calls a module exactly the way the runtime does: `alloc`, write the input, `invoke`, read the output.
+`test/call.py` calls a module exactly the way the runtime does: `alloc`, write the input, `invoke`, read the output. It runs in a Python container, so you don't need Python installed.
 
 ```sh
 docker run --rm -v "$PWD":/w -w /w python:3.12-slim sh -c \
