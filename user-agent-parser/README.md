@@ -39,6 +39,12 @@ The record comes back with these fields added:
 
 Windows 10 and 11 send the same version ("10"), and recent browsers reduce the detail in their user agents, so treat versions as approximate. For exact device data, use client hints.
 
+## Use it in a Neblex flow
+
+1. Download `user-agent-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `user-agent-parser`.
+3. Add a step that uses the module's **Run module** operation after a web analytics, log or form step that returns user-agent strings. Map the string to `user_agent`.
+
 ## Build and test
 
 ```sh
