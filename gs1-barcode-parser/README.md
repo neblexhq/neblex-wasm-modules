@@ -58,6 +58,12 @@ Both forms work:
 
 Other AIs are reported in `errors`. Two-digit years 00-49 are read as 20xx and 50-99 as 19xx: the module has no clock, so it can't apply GS1's rule of choosing the century nearest the current year.
 
+## Use it in a Neblex flow
+
+1. Download `gs1-barcode-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `gs1-barcode-parser`.
+3. Add a step that uses the module's **Run module** operation after a scanner, form or warehouse step that returns barcode scans. Map the scan to `barcode`.
+
 ## Build and test
 
 ```sh
