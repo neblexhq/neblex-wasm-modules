@@ -52,6 +52,12 @@ The same value gets the same placeholder everywhere in the record, across all fi
 
 The module finds data by pattern and check digit. It won't find a person's name unless you list it in `terms`, addresses written in prose, dates of birth, or numbers in unusual formats. Treat it as one layer of protection, not a guarantee that text is free of personal data.
 
+## Use it in a Neblex flow
+
+1. Download `pii-redactor.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `pii-redactor`.
+3. Add a step that uses the module's **Run module** operation after a step that returns text bound for an AI model or a log. Map it to `text`, or list several fields in `_options.fields`.
+
 ## Build and test
 
 ```sh
