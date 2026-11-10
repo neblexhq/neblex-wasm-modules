@@ -51,6 +51,12 @@ To write a file from a list of flow records, collect them first (for example wit
 - Numbers keep full precision; text that looks like a number (`"-42"`) isn't treated as a formula. Nested objects and lists are written as JSON text.
 - Formula escaping follows the OWASP advice for CSV injection. Turn it off only for trusted data going to a system that isn't a spreadsheet.
 
+## Use it in a Neblex flow
+
+1. Download `csv-writer.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `csv-writer`.
+3. Add a step that uses the module's **Run module** operation after a step that returns the records to export. Map the list to `records`, and set `columns` to fix the column order.
+
 ## Build and test
 
 ```sh
