@@ -45,6 +45,12 @@ One record or an array of records, each with the calendar text:
 
 Recurring events are returned once, with their rule; the module doesn't expand them into individual dates.
 
+## Use it in a Neblex flow
+
+1. Download `ics-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `ics-parser`.
+3. Add a step that uses the module's **Run module** operation after a mail or calendar step that returns an .ics invite or feed. Map it to `ics`.
+
 ## Build and test
 
 ```sh
