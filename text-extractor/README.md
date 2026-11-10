@@ -69,6 +69,12 @@ Labels are matched case-insensitively and may be followed by `#`, `:`, `No` or `
 
 The module works by patterns and check digits. It handles predictable formats well, and it will miss values written in unusual ways (an amount with no currency, a phone number in words) and can't tell which of two dates is the due date. Use the context, or pass the text and the module's findings to an AI step when that matters.
 
+## Use it in a Neblex flow
+
+1. Download `text-extractor.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `text-extractor`.
+3. Add a step that uses the module's **Run module** operation after a mail, ticket or document step that returns free text. Map it to `text`.
+
 ## Build and test
 
 ```sh
