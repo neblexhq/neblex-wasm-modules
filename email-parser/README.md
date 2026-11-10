@@ -48,6 +48,12 @@ One record or an array of records, each with the raw message (the `.eml` content
 
 Supported encodings: base64, quoted-printable, 7bit and 8bit; UTF-8, ISO-8859-1 and Windows-1252. Other character sets are read as UTF-8. Nested messages (a forwarded email inside an email) are read in place. Reply detection covers the common English formats; replies written in other languages may keep their quoted part.
 
+## Use it in a Neblex flow
+
+1. Download `email-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `email-parser`.
+3. Add a step that uses the module's **Run module** operation after a mail step that returns the raw message (.eml, raw or MIME format). Map it to `email`.
+
 ## Build and test
 
 ```sh
