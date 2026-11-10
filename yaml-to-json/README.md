@@ -63,6 +63,12 @@ zip: "02134"
 - Invalid YAML returns `ok: false` with the line and column of the problem.
 - Alias chains that would expand into huge output ("billion laughs") are refused.
 
+## Use it in a Neblex flow
+
+1. Download `yaml-to-json.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `yaml-to-json`.
+3. Add a step that uses the module's **Run module** operation after a Git, storage or API step that returns YAML. Map it to `yaml`.
+
 ## Build and test
 
 ```sh
