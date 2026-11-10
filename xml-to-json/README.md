@@ -52,6 +52,12 @@ Add an Unwind step on `records` to get one flow record per line.
 
 XML that isn't well formed returns `"ok": false` with the parser's reason and position. Documents with a DTD are refused, so entity-expansion attacks can't run.
 
+## Use it in a Neblex flow
+
+1. Download `xml-to-json.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `xml-to-json`.
+3. Add a step that uses the module's **Run module** operation after an ERP, SOAP or file step that returns XML. Map it to `xml`.
+
 ## Build and test
 
 ```sh
