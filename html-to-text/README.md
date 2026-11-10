@@ -35,6 +35,12 @@ One record or an array of records, each with the HTML:
 
 Text-like content that isn't HTML passes through, and a stray `<` in text ("a < b") is kept as text.
 
+## Use it in a Neblex flow
+
+1. Download `html-to-text.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `html-to-text`.
+3. Add a step that uses the module's **Run module** operation after a mail, web or CRM step that returns HTML. Map it to `html`.
+
 ## Build and test
 
 ```sh
