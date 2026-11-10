@@ -30,6 +30,12 @@ On failure it returns `{"ok": false, "error": "..."}`.
 
 This is a small, text-only reader. It handles uncompressed and Flate-compressed content streams. It does not decrypt password-protected PDFs, read images or run OCR, so a scanned PDF returns `has_text: false`. Use that field to send scans to an OCR or AI step instead.
 
+## Use it in a Neblex flow
+
+1. Download `pdf-to-json.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `pdf-to-json`.
+3. Add a step that uses the module's **Run module** operation after a mail, storage or API step that returns a PDF as base64. Map the record as is (the PDF is found wherever it sits).
+
 ## Build and test
 
 ```sh
