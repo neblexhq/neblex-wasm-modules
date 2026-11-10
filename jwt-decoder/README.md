@@ -54,6 +54,12 @@ One record or an array of records, each with a token. A `Bearer ` prefix, as cop
 - The token is removed from the output by default, so it doesn't end up in run history or logs.
 - Encrypted tokens (JWE, five parts) return `ok: false`: their claims can't be read without the key.
 
+## Use it in a Neblex flow
+
+1. Download `jwt-decoder.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `jwt-decoder`.
+3. Add a step that uses the module's **Run module** operation after a webhook or API step that returns a token or an Authorization header. Map it to `token`, and pass the run time as `_options.now` for expiry checks.
+
 ## Build and test
 
 ```sh
