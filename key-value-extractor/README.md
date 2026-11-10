@@ -65,6 +65,12 @@ How values are found:
 
 Layouts with values above their labels, or tables without clear column gaps, need an AI step.
 
+## Use it in a Neblex flow
+
+1. Download `key-value-extractor.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `key-value-extractor`.
+3. Add a step that uses the module's **Run module** operation after a PDF, OCR or email step that returns document text. Map it to `text`.
+
 ## Build and test
 
 ```sh
