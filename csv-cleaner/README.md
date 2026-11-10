@@ -61,6 +61,12 @@ How detection works:
 
 Add an Unwind step on `records` to get one flow record per row. The text must already be decoded: files in a legacy encoding such as Windows-1252 should be converted to UTF-8 first, which most file connectors do on read.
 
+## Use it in a Neblex flow
+
+1. Download `csv-cleaner.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `csv-cleaner`.
+3. Add a step that uses the module's **Run module** operation after a file, email or storage step that returns a CSV export as text. Map the text to `csv`.
+
 ## Build and test
 
 ```sh
