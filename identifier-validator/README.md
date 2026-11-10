@@ -49,6 +49,12 @@ The record comes back unchanged, with two fields added:
 
 `_valid` is false when any checked field fails. In the flow, filter on it or route failed records to a review step.
 
+## Use it in a Neblex flow
+
+1. Download `identifier-validator.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `identifier-validator`.
+3. Add a step that uses the module's **Run module** operation after a step that returns records with IBANs, VAT IDs, GTINs, routing numbers or LEIs. Map the record as is (fields are picked by name), or name them in `_checks`.
+
 ## Build and test
 
 ```sh
