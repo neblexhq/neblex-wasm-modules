@@ -50,6 +50,12 @@ Only fields present in `new` are compared, unless `report_removed` is set, becau
 - `patch` has only the new values of changed fields, nested like the record, ready for an update call.
 - `changes` is the before-and-after record for an audit log.
 
+## Use it in a Neblex flow
+
+1. Download `record-diff.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `record-diff`.
+3. Add a step that uses the module's **Run module** operation after a step that returns the stored record and the incoming one. Map them to `old` and `new`.
+
 ## Build and test
 
 ```sh
