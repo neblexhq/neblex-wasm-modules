@@ -45,6 +45,12 @@ When no JSON object or array can be found, the record comes back with `"ok": fal
 
 A fix that mentions the text being cut off means the source stopped early: the value is valid, but fields after the cut are missing. Route those records to a retry or a review step rather than loading them as complete.
 
+## Use it in a Neblex flow
+
+1. Download `json-repair.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `json-repair`.
+3. Add a step that uses the module's **Run module** operation after an AI step that should return JSON. Map its reply to `text`.
+
 ## Build and test
 
 ```sh
