@@ -59,6 +59,12 @@ A unit that can't be converted (kilograms to meters, or a pack code with no size
 
 Names such as "kilograms", "lbs", "pieces" and "dozen" are recognized. Ambiguous abbreviations ("gr", "ct") are not, so they need a pack size or a clear code. Imperial (UK) gallons and pints, and conversions between mass and volume, need your own pack sizes.
 
+## Use it in a Neblex flow
+
+1. Download `uom-converter.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `uom-converter`.
+3. Add a step that uses the module's **Run module** operation after an order, inventory or ERP step that returns quantities. Map `quantity`, `from` and `to`, or a list of `lines`.
+
 ## Build and test
 
 ```sh
