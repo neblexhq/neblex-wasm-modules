@@ -4,7 +4,7 @@
 
 Sandboxed WebAssembly (WASM) modules for [Neblex Integration Fabric](https://www.neblex.com/integration-fabric). A module adds custom logic to an integration flow, such as parsing a file format or validating data, without running unreviewed code on your servers. Each module gets JSON in, returns JSON out, and cannot reach the network, the file system or anything else outside its own memory.
 
-This repository has a starter template and twenty-two ready-to-use modules, all written in Rust.
+This repository has a starter template and twenty-four ready-to-use modules, all written in Rust.
 
 ### Turn unstructured data into records
 
@@ -31,6 +31,7 @@ This repository has a starter template and twenty-two ready-to-use modules, all 
 | [fixed-width-parser](fixed-width-parser) | Turns fixed-width text files (mainframe extracts, bank and legacy ERP files) into records, including header/detail/trailer lines, implied decimals and COBOL signed numbers | about 115 KB |
 | [fixed-width-writer](fixed-width-writer) | Writes records back out as a fixed-width file, using the same layout as the parser | about 165 KB |
 | [csv-writer](csv-writer) | Writes records as CSV with any delimiter, decimal commas, chosen columns, a BOM for Excel, and formula-injection protection | about 120 KB |
+| [yaml-to-json](yaml-to-json) | Converts YAML (config files, API specs, front matter) to JSON, including anchors, merge keys and files with several documents | about 255 KB |
 | [uom-converter](uom-converter) | Converts quantities between units of measure and your own pack sizes (case, box, pallet), chained as needed | about 125 KB |
 | [gs1-barcode-parser](gs1-barcode-parser) | Splits GS1-128, DataMatrix and QR barcode scans into GTIN, batch, expiry, serial, weights and SSCC, with check digits verified | about 100 KB |
 
@@ -39,6 +40,7 @@ This repository has a starter template and twenty-two ready-to-use modules, all 
 | Module | What it does | Size |
 |---|---|---|
 | [pii-redactor](pii-redactor) | Replaces emails, phone numbers, card numbers, SSNs, IBANs, IP addresses and names you list with placeholders before text reaches an AI model or a log | about 140 KB |
+| [jwt-decoder](jwt-decoder) | Decodes JSON Web Tokens into header, claims and readable dates, and checks expiry against a time you pass in (it does not verify signatures) | about 95 KB |
 | [record-diff](record-diff) | Compares an incoming record with the stored version and returns only the changed fields, a patch and old/new values | about 120 KB |
 
 ### Validate and standardize

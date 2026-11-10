@@ -1,0 +1,6 @@
+[
+  {
+    "file": "sync.yaml",
+    "yaml": "# Sync settings\nname: hubspot-to-erp\nenabled: true\nschedule: \"*/15 * * * *\"\nbatch_size: 500\ndefaults: &defaults\n  retries: 3\n  timeout_s: 30\ntargets:\n  - system: erp\n    <<: *defaults\n    fields: [email, company, phone]\n  - system: warehouse\n    retries: 5\nzip: \"02134\"\n"
+  }
+]

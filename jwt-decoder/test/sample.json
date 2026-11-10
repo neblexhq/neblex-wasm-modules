@@ -1,0 +1,9 @@
+[
+  {
+    "request_id": "r-1",
+    "token": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtleS0yMDI2LTExIn0.eyJpc3MiOiJodHRwczovL2xvZ2luLmV4YW1wbGUuY29tLyIsInN1YiI6InVzZXItNDQ3MSIsImF1ZCI6ImFwaTovL29yZGVycyIsImlhdCI6MTc2MjcwNzYwMCwiZXhwIjoxNzYyNzExMjAwLCJzY29wZSI6Im9yZGVycy5yZWFkIiwiZW1haWwiOiJqYW5lQGV4YW1wbGUuY29tIn0.c2lnbmF0dXJl",
+    "_options": {
+      "now": "2025-11-09T17:30:00Z"
+    }
+  }
+]
