@@ -83,6 +83,12 @@ A bad `_layout` (missing `start`, unknown type) returns `"ok": false` with the r
 
 The module reads text. A file still in EBCDIC needs converting to UTF-8 or ASCII first, which most transfer tools do on download.
 
+## Use it in a Neblex flow
+
+1. Download `fixed-width-parser.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `fixed-width-parser`.
+3. Add a step that uses the module's **Run module** operation after a file or SFTP step that returns the file as text. Map the text to `file` and describe the format in `_layout`.
+
 ## Build and test
 
 ```sh
