@@ -62,6 +62,12 @@ Negative decimals keep their sign in front of the zero padding (`-0042`). Missin
 
 `errors` lists every value that didn't fit or didn't parse, with its record index and column; that field is left blank, and `_valid` is false. Don't send a file with errors to a bank or ERP. Route it to review instead.
 
+## Use it in a Neblex flow
+
+1. Download `fixed-width-writer.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `fixed-width-writer`.
+3. Add a step that uses the module's **Run module** operation after a step that returns the records to write. Map the list to `records` and add the same `_layout` the parser uses.
+
 ## Build and test
 
 ```sh
