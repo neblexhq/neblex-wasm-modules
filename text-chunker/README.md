@@ -45,6 +45,12 @@ About 4 characters make one token for English text, so the 1,500-character defau
 
 In a flow: Unwind on `chunks`, embed each chunk's `text`, then insert or upsert it into your vector table with `chunk_id`, `source_id`, `heading` and `text`.
 
+## Use it in a Neblex flow
+
+1. Download `text-chunker.wasm` from the [latest release](https://github.com/neblexhq/neblex-wasm-modules/releases/latest).
+2. In Neblex, open **Custom Integrations**, choose **Add Sandboxed Module** and upload the file. Name it `text-chunker`.
+3. Add a step that uses the module's **Run module** operation after a document, PDF or HTML step that returns long text. Map it to `text`, and send the chunks on to an embeddings step.
+
 ## Build and test
 
 ```sh
