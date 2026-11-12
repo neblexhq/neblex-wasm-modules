@@ -28,7 +28,7 @@ On failure it returns `{"ok": false, "error": "..."}`.
 
 ## Limits
 
-This is a small, text-only reader. It handles uncompressed and Flate-compressed content streams. It does not decrypt password-protected PDFs, read images or run OCR, so a scanned PDF returns `has_text: false`. Use that field to send scans to an OCR or AI step instead.
+This is a small, text-only reader. It handles uncompressed content streams and the Flate, ASCII85 and ASCIIHex filters, including ASCII85 over Flate as ReportLab writes it. Wide gaps between text on one line, such as the two columns of an invoice header or the cells of a table, come out as two spaces, so `key-value-extractor` can tell the columns apart. It does not decrypt password-protected PDFs, read images or run OCR, so a scanned PDF returns `has_text: false`. Use that field to send scans to an OCR or AI step instead.
 
 ## Use it in a Neblex flow
 

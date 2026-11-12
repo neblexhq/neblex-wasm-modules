@@ -518,6 +518,7 @@ impl Pdf {
         for f in filters {
             out = match f {
                 "FlateDecode" | "Fl" => inflate(&out)?,
+                "ASCII85Decode" | "A85" => ascii85(&out),
                 "ASCIIHexDecode" | "AHx" => {
                     let hex: Vec<u8> = out.iter().copied().take_while(|&c| c != b'>').filter(u8::is_ascii_hexdigit).collect();
                     hex.chunks(2).map(|p| hexval(p[0]) << 4 | hexval(*p.get(1).unwrap_or(&b'0'))).collect()
@@ -806,6 +807,36 @@ fn inflate(data: &[u8]) -> Option<Vec<u8>> {
     }
 }
 
+// ASCII85 as PDF uses it (ReportLab writes it in front of Flate): "z" is four zero bytes,
+// "~>" ends the data, a final partial group is padded with "u".
+fn ascii85(data: &[u8]) -> Vec<u8> {
+    let data = data.strip_prefix(b"<~").unwrap_or(data);
+    let mut out = Vec::with_capacity(data.len() * 4 / 5);
+    let (mut group, mut n) = (0u64, 0);
+    for &c in data {
+        match c {
+            b'~' => break,
+            b'z' if n == 0 => out.extend_from_slice(&[0; 4]),
+            b'!'..=b'u' => {
+                group = group * 85 + (c - b'!') as u64;
+                n += 1;
+                if n == 5 {
+                    out.extend_from_slice(&(group as u32).to_be_bytes());
+                    (group, n) = (0, 0);
+                }
+            }
+            _ => {}
+        }
+    }
+    if n > 1 {
+        for _ in n..5 {
+            group = group * 85 + 84;
+        }
+        out.extend_from_slice(&(group as u32).to_be_bytes()[..n - 1]);
+    }
+    out
+}
+
 // ---------------------------------------------------------------- fonts
 
 #[derive(Default)]
@@ -1023,11 +1054,13 @@ struct Writer {
 }
 
 impl Writer {
-    /// Decides between nothing, a space or a line break before text at (x, y).
+    /// Decides between nothing, a space, a column gap or a line break before text at (x, y).
     fn place(&mut self, x: f64, y: f64, size: f64) {
         let Some((ex, ey)) = self.end else { return };
         if (y - ey).abs() > size * 0.5 {
             self.newline();
+        } else if x - ex > size * 1.5 {
+            self.gap();
         } else if x - ex > size * 0.15 || x < ex - size * 2.0 {
             self.space();
         }
@@ -1045,6 +1078,13 @@ impl Writer {
         }
     }
 
+    /// Two spaces mark a column boundary, as in a two-column invoice header or a table.
+    fn gap(&mut self) {
+        if !self.out.is_empty() && !self.out.ends_with('\n') {
+            self.out.push_str("  ");
+        }
+    }
+
     fn newline(&mut self) {
         while self.out.ends_with(' ') {
             self.out.pop();
@@ -1057,11 +1097,30 @@ impl Writer {
     fn finish(self) -> String {
         self.out
             .lines()
-            .map(|l| l.split_whitespace().collect::<Vec<_>>().join(" "))
+            .map(squeeze)
             .filter(|l| !l.is_empty())
             .collect::<Vec<_>>()
             .join("\n")
     }
+}
+
+/// Trims a line and shortens runs of whitespace: one stays a space, two or more become
+/// two spaces, so column boundaries survive and stray spacing doesn't.
+fn squeeze(line: &str) -> String {
+    let mut out = String::with_capacity(line.len());
+    let mut run = 0;
+    for c in line.trim().chars() {
+        if c.is_whitespace() {
+            run += 1;
+            continue;
+        }
+        if run > 0 {
+            out.push_str(if run == 1 { " " } else { "  " });
+            run = 0;
+        }
+        out.push(c);
+    }
+    out
 }
 
 fn metadata(pdf: &Pdf, info: Option<&Dict>) -> Value {
