@@ -121,6 +121,7 @@ Copy `template/`, rename the package in `Cargo.toml`, and replace the `transform
 
 ## Links
 
+- [WebAssembly for AI agents and workflows](https://www.neblex.com/blog/webassembly-data-transformation-modules) (blog post with a worked example: a supplier invoice email through five modules)
 - [Neblex Integration Fabric](https://www.neblex.com/integration-fabric)
 - [Capabilities](https://www.neblex.com/integration-fabric/capabilities)
 - [Reusable Rhai functions](https://github.com/neblexhq/neblex-rhai-modules): for lighter custom logic, a Rhai script in a Code step is quicker to write than a module
