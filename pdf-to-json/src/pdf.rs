@@ -1,10 +1,12 @@
-//! Minimal text-only PDF reader: scans objects (incl. object streams), walks the
-//! page tree in order, decodes Flate content streams and maps glyphs to Unicode
-//! through ToUnicode CMaps, /Differences or WinAnsi.
+//! Minimal text-only PDF reader: scans objects (incl. object streams), decrypts files that
+//! open without a password, walks the page tree in order, decodes Flate content streams
+//! and maps glyphs to Unicode through ToUnicode CMaps, /Differences or WinAnsi.
 
 use std::collections::HashMap;
 
 use serde_json::{Map, Value};
+
+use crate::crypt::{Crypt, Method, Params};
 
 const INFLATE_LIMIT: usize = 64 * 1024 * 1024;
 const MAX_PAGES: usize = 5000;
@@ -37,14 +39,22 @@ pub fn extract(bytes: &[u8]) -> Result<Doc, String> {
     if !bytes.starts_with(b"%PDF") && find(bytes, b"%PDF", 0).map_or(true, |p| p > 1024) {
         return Err("input is not a PDF (no %PDF header)".into());
     }
-    let (objs, trailers) = scan(bytes);
+    let (mut objs, gens, trailers) = scan(bytes);
     if objs.is_empty() {
         return Err("could not read any PDF objects".into());
     }
-    let pdf = Pdf { objs };
-    if trailers.iter().any(|t| t.contains_key("Encrypt")) {
-        return Err("encrypted PDFs are not supported".into());
+    if let Some(enc) = trailers.iter().rev().find_map(|t| t.get("Encrypt")).cloned() {
+        let pdf = Pdf { objs };
+        let crypt = security(&pdf, &enc, &trailers)?;
+        objs = pdf.objs;
+        let skip = if let Obj::Ref(n) = enc { Some(n) } else { None };
+        for (num, obj) in objs.iter_mut() {
+            if Some(*num) != skip {
+                decrypt(obj, &crypt, *num, *gens.get(num).unwrap_or(&0));
+            }
+        }
     }
+    let pdf = Pdf { objs: unpack_object_streams(objs) };
 
     let mut pages = Vec::new();
     if let Some(root) = trailers.iter().rev().find_map(|t| t.get("Root")) {
@@ -68,10 +78,11 @@ pub fn extract(bytes: &[u8]) -> Result<Doc, String> {
     let texts = pages
         .iter()
         .map(|(page, res)| {
+            // A /Contents array is one content stream split into parts, and producers such as
+            // Word split mid-operator, so the parts are joined before they are interpreted.
             let mut w = Writer::default();
-            for data in pdf.contents(page) {
-                pdf.run(&data, *res, &mut w, ID, 0);
-            }
+            let data = pdf.contents(page).join(&b'\n');
+            pdf.run(&data, *res, &mut w, ID, 0);
             w.finish()
         })
         .collect();
@@ -364,9 +375,10 @@ fn as_num(o: &Obj) -> Option<f64> {
 
 /// Finds every `N G obj` in the file (later definitions win, like incremental
 /// updates), every `trailer` dict and every cross-reference stream dict, then
-/// unpacks object streams.
-fn scan(b: &[u8]) -> (HashMap<u32, Obj>, Vec<Dict>) {
+/// Reads every top-level object with its generation number, and the trailers.
+fn scan(b: &[u8]) -> (HashMap<u32, Obj>, HashMap<u32, u16>, Vec<Dict>) {
     let mut objs = HashMap::new();
+    let mut gens = HashMap::new();
     let mut trailers = Vec::new();
     let mut p = 0;
     while let Some(at) = find(b, b"obj", p) {
@@ -377,7 +389,7 @@ fn scan(b: &[u8]) -> (HashMap<u32, Obj>, Vec<Dict>) {
         if b.get(at + 3).is_some_and(|&c| !is_ws(c) && !is_delim(c)) {
             continue;
         }
-        let Some(num) = obj_number(b, at) else { continue };
+        let Some((num, gen)) = obj_number(b, at) else { continue };
         let mut lx = Lex::new(b, at + 3);
         let Some(obj) = lx.parse(true, 0) else { continue };
         lx.skip_ws();
@@ -412,6 +424,7 @@ fn scan(b: &[u8]) -> (HashMap<u32, Obj>, Vec<Dict>) {
             o => o,
         };
         objs.insert(num, obj);
+        gens.insert(num, gen);
     }
 
     let mut p = 0;
@@ -422,6 +435,11 @@ fn scan(b: &[u8]) -> (HashMap<u32, Obj>, Vec<Dict>) {
         }
     }
 
+    (objs, gens, trailers)
+}
+
+/// Adds the objects packed inside object streams (decrypted first, if the file is encrypted).
+fn unpack_object_streams(objs: HashMap<u32, Obj>) -> HashMap<u32, Obj> {
     let pdf = Pdf { objs };
     let mut extra = Vec::new();
     for o in pdf.objs.values() {
@@ -454,11 +472,80 @@ fn scan(b: &[u8]) -> (HashMap<u32, Obj>, Vec<Dict>) {
     for (num, obj) in extra {
         objs.entry(num).or_insert(obj);
     }
-    (objs, trailers)
+    objs
+}
+
+/// Builds the decryptor from the Encrypt dictionary.
+fn security(pdf: &Pdf, enc: &Obj, trailers: &[Dict]) -> Result<Crypt, String> {
+    let d = pdf.dict(enc).ok_or("encryption dictionary is missing")?;
+    if d.get("Filter").and_then(|f| as_name(pdf.get(f))) != Some("Standard") {
+        return Err("this PDF uses certificate or custom encryption, which is not supported".into());
+    }
+    let num = |k: &str| d.get(k).and_then(|x| as_num(pdf.get(x)));
+    let bytes = |k: &str| match d.get(k).map(|x| pdf.get(x)) {
+        Some(Obj::Str(s)) => s.as_slice(),
+        _ => &[],
+    };
+    let v = num("V").unwrap_or(0.0) as u32;
+    let id0 = trailers.iter().rev().find_map(|t| match t.get("ID").map(|x| pdf.get(x)) {
+        Some(Obj::Arr(a)) => match a.first().map(|x| pdf.get(x)) {
+            Some(Obj::Str(s)) => Some(s.as_slice()),
+            _ => None,
+        },
+        _ => None,
+    });
+    // A crypt filter name maps to a method through /CF; Identity means not encrypted.
+    let filter = |k: &str| -> Method {
+        let Some(name) = d.get(k).and_then(|x| as_name(pdf.get(x))) else { return Method::Identity };
+        let cf = d.get("CF").and_then(|x| pdf.dict(x)).and_then(|cf| cf.get(name)).and_then(|x| pdf.dict(x));
+        match cf.and_then(|c| c.get("CFM")).and_then(|x| as_name(pdf.get(x))) {
+            Some("V2") => Method::Rc4,
+            Some("AESV2") => Method::Aes128,
+            Some("AESV3") => Method::Aes256,
+            _ => Method::Identity,
+        }
+    };
+    let (stm, str) = match v {
+        1 | 2 => (Method::Rc4, Method::Rc4),
+        4 | 5 => (filter("StmF"), filter("StrF")),
+        _ => return Err(format!("unsupported PDF encryption (version {v})")),
+    };
+    Crypt::new(&Params {
+        r: num("R").unwrap_or(2.0) as u32,
+        length_bits: num("Length").unwrap_or(if v == 4 { 128.0 } else { 40.0 }) as u32,
+        o: bytes("O"),
+        u: bytes("U"),
+        ue: bytes("UE"),
+        p: num("P").unwrap_or(0.0) as i64 as i32,
+        id0: id0.unwrap_or_default(),
+        encrypt_metadata: !matches!(d.get("EncryptMetadata").map(|x| pdf.get(x)), Some(Obj::Bool(false))),
+        stm,
+        str,
+    })
+}
+
+/// Decrypts every string and stream in one top-level object.
+fn decrypt(o: &mut Obj, c: &Crypt, num: u32, gen: u16) {
+    match o {
+        Obj::Str(s) => *s = c.decrypt(c.strings, num, gen, s),
+        Obj::Arr(a) => a.iter_mut().for_each(|x| decrypt(x, c, num, gen)),
+        Obj::Dict(d) => d.values_mut().for_each(|x| decrypt(x, c, num, gen)),
+        Obj::Stream(d, data) => {
+            let kind = d.get("Type").and_then(as_name).unwrap_or_default().to_string();
+            if kind == "XRef" {
+                return; // cross-reference streams are never encrypted
+            }
+            d.values_mut().for_each(|x| decrypt(x, c, num, gen));
+            if !(kind == "Metadata" && !c.encrypt_metadata) {
+                *data = c.decrypt(c.streams, num, gen, data);
+            }
+        }
+        _ => {}
+    }
 }
 
 /// Reads `N G` backwards from the position of `obj`.
-fn obj_number(b: &[u8], at: usize) -> Option<u32> {
+fn obj_number(b: &[u8], at: usize) -> Option<(u32, u16)> {
     let mut j = at;
     let ws_end = j;
     while j > 0 && is_ws(b[j - 1]) {
@@ -485,7 +572,8 @@ fn obj_number(b: &[u8], at: usize) -> Option<u32> {
     while j > 0 && b[j - 1].is_ascii_digit() {
         j -= 1;
     }
-    std::str::from_utf8(&b[j..num_end]).ok()?.parse().ok()
+    let gen = std::str::from_utf8(&b[ws2..gen_end]).ok()?.parse().unwrap_or(0);
+    Some((std::str::from_utf8(&b[j..num_end]).ok()?.parse().ok()?, gen))
 }
 
 struct Pdf {
@@ -659,7 +747,9 @@ impl Pdf {
         if let Some(cmap) = d.get("ToUnicode").and_then(|t| self.decode(t)) {
             let (map, width) = parse_cmap(&cmap);
             f.cmap = map;
-            if let Some(width) = width {
+            // Simple fonts always use one-byte codes, even when their ToUnicode CMap declares a
+            // two-byte codespace (Word's PDFMaker writes <0000> <FFFF> for WinAnsi fonts).
+            if let (true, Some(width)) = (f.two_byte, width) {
                 f.two_byte = width == 2;
             }
         }
@@ -1123,12 +1213,31 @@ fn squeeze(line: &str) -> String {
     out
 }
 
+/// PDFDocEncoding, used by Info strings without a byte order mark. It matches Latin-1 except
+/// for 0x80-0xA0, which hold typographic characters.
+fn pdf_doc(c: u8) -> char {
+    const HIGH: [char; 33] = [
+        '•', '†', '‡', '…', '—', '–', 'ƒ', '⁄', '‹', '›', '−', '‰', '„', '“', '”', '‘', '’', '‚', '™', 'ﬁ', 'ﬂ', 'Ł', 'Œ', 'Š', 'Ÿ', 'Ž',
+        'ı', 'ł', 'œ', 'š', 'ž', '\u{FFFD}', '€',
+    ];
+    match c {
+        0x80..=0xA0 => HIGH[(c - 0x80) as usize],
+        _ => c as char,
+    }
+}
+
 fn metadata(pdf: &Pdf, info: Option<&Dict>) -> Value {
     let mut out = Map::new();
     if let Some(info) = info {
         for key in ["Title", "Author", "Subject", "Keywords", "Creator", "Producer", "CreationDate", "ModDate"] {
             if let Some(Obj::Str(b)) = info.get(key).map(|o| pdf.get(o)) {
-                let s = if b.starts_with(&[0xFE, 0xFF]) { utf16(&b[2..]) } else { b.iter().map(|&c| c as char).collect() };
+                let s = if b.starts_with(&[0xFE, 0xFF]) {
+                    utf16(&b[2..])
+                } else if let Some(u) = b.strip_prefix(&[0xEF, 0xBB, 0xBF]) {
+                    String::from_utf8_lossy(u).into_owned()
+                } else {
+                    b.iter().map(|&c| pdf_doc(c)).collect()
+                };
                 let s = s.trim_matches(char::from(0)).trim().to_string();
                 if !s.is_empty() {
                     out.insert(key.to_lowercase(), Value::String(s));

@@ -28,7 +28,7 @@ On failure it returns `{"ok": false, "error": "..."}`.
 
 ## Limits
 
-This is a small, text-only reader. It handles uncompressed content streams and the Flate, ASCII85 and ASCIIHex filters, including ASCII85 over Flate as ReportLab writes it. Wide gaps between text on one line, such as the two columns of an invoice header or the cells of a table, come out as two spaces, so `key-value-extractor` can tell the columns apart. It does not decrypt password-protected PDFs, read images or run OCR, so a scanned PDF returns `has_text: false`. Use that field to send scans to an OCR or AI step instead.
+This is a small, text-only reader. It handles uncompressed content streams and the Flate, ASCII85 and ASCIIHex filters, including ASCII85 over Flate as ReportLab writes it. Wide gaps between text on one line, such as the two columns of an invoice header or the cells of a table, come out as two spaces, so `key-value-extractor` can tell the columns apart. It opens encrypted PDFs that need no password to open (RC4 and AES, as banks and government forms often send them); a PDF that needs a password returns an error saying so. It does not read images or run OCR, so a scanned PDF returns `has_text: false`. Use that field to send scans to an OCR or AI step instead.
 
 ## Use it in a Neblex flow
 
@@ -40,6 +40,7 @@ This is a small, text-only reader. It handles uncompressed content streams and t
 
 ```sh
 ../build.sh pdf-to-json
-docker run --rm -v "$(cd .. && pwd)":/w -w /w python:3.12-slim sh -c \
-  'pip install -q wasmtime && python pdf-to-json/test/run.py dist/pdf-to-json.wasm'
+docker run --rm -v "$PWD":/src -w /src rust:1-slim cargo test --lib
 ```
+
+The unit tests build small PDFs in code and also read the files in `test/fixtures/`: encrypted copies of one invoice (RC4 and AES, made with qpdf) and an object-stream PDF. `test/sample.json` is a ready input for trying the module in a flow or with `../test/call.py`.

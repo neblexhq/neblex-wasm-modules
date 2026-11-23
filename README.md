@@ -12,7 +12,7 @@ This repository has a starter template and twenty-four ready-to-use modules, all
 |---|---|---|
 | [email-parser](email-parser) | Parses a raw email into sender, recipients, subject, date, thread IDs, body and attachments, and separates the new reply from quoted history and the signature | about 145 KB |
 | [text-extractor](text-extractor) | Finds emails, URLs, phone numbers, dates, amounts, IBANs, parcel tracking numbers and PO or invoice numbers in free text, with check digits verified | about 165 KB |
-| [pdf-to-json](pdf-to-json) | Extracts the text and metadata from a text-based PDF passed as base64 | about 175 KB |
+| [pdf-to-json](pdf-to-json) | Extracts the text and metadata from a text-based PDF passed as base64, including encrypted PDFs that open without a password | about 215 KB |
 | [json-repair](json-repair) | Turns almost-JSON from AI models (code fences, single quotes, trailing commas, cut-off output) into valid JSON and lists every fix | about 125 KB |
 | [html-to-text](html-to-text) | Turns HTML emails, pages and rich-text fields into clean text or Markdown, keeping headings, lists, tables and links | about 105 KB |
 | [key-value-extractor](key-value-extractor) | Pulls labeled values ("Invoice No:", "Total Due") and aligned tables out of document text, typed as numbers, amounts or dates | about 150 KB |
@@ -87,7 +87,7 @@ A Neblex module is a core WebAssembly module (not a component) that:
 
 The input is the step's JSON (one record or an array of records). The output must be valid JSON. The modules here pass each record through and add their results as new fields, so later steps in the flow can filter or route on them.
 
-Keep modules small. Neblex accepted modules up to about 680 KB in our tests and rejected larger ones. The modules here are 60 to 260 KB; avoid crates that pull in compression, crypto or Unicode tables you don't need. An early pdf-to-json built on a full PDF library was 1.4 MB.
+Neblex accepts modules up to at least 3 MB, so there is room for a library when it does the job better than hand-written code. Smaller modules start faster, so leave out crates and features you don't use. The modules here are 60 to 260 KB.
 
 ## Build
 
