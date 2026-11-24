@@ -1,0 +1,63 @@
+{
+  "customer": {
+    "tier": "gold"
+  },
+  "order": {
+    "total": 12500,
+    "country": "US"
+  },
+  "_options": {
+    "table": {
+      "hit_policy": "first",
+      "inputs": [
+        {
+          "field": "customer.tier",
+          "name": "Tier"
+        },
+        {
+          "field": "order.total",
+          "name": "Order total"
+        },
+        {
+          "field": "order.country",
+          "name": "Country"
+        }
+      ],
+      "outputs": [
+        {
+          "field": "discount"
+        },
+        {
+          "field": "approval"
+        }
+      ],
+      "rules": [
+        {
+          "_description": "Gold, large order",
+          "Tier": "\"gold\"",
+          "Order total": ">= 10000",
+          "discount": "0.15",
+          "approval": "\"manager\""
+        },
+        {
+          "_description": "Gold",
+          "Tier": "\"gold\"",
+          "discount": "0.10",
+          "approval": "\"none\""
+        },
+        {
+          "_description": "EU mid-size",
+          "Order total": "[1000..9999]",
+          "Country": "\"DE\", \"FR\", \"NL\"",
+          "discount": "0.05",
+          "approval": "\"none\""
+        },
+        {
+          "_description": "Everyone else",
+          "discount": "0",
+          "approval": "\"none\""
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+[package]
+name = "neblex-decision-table"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_json = "1"
+# The ZEN expression language (MIT) without the rest of the engine, which needs QuickJS.
+zen-expression = { version = "2.1", default-features = false, features = ["regex-lite"] }
+chrono = { version = "0.4", default-features = false, features = ["std"] }
+getrandom = "0.3"
+
+# Patched copies of crates that otherwise import JavaScript functions on wasm32, and a settable
+# clock for zen-expression; see ../vendor/README.md.
+[patch.crates-io]
+zen-expression = { path = "../vendor/zen-expression-2.1.8" }
+chrono = { path = "../vendor/chrono-0.4.45" }
+iana-time-zone = { path = "../vendor/iana-time-zone-0.1.65" }
+getrandom = { path = "../vendor/getrandom-0.4.3" }
+getrandom03 = { path = "../vendor/getrandom-0.3.4", package = "getrandom" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
