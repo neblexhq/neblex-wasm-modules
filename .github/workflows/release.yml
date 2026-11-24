@@ -26,6 +26,9 @@ jobs:
 
       - name: Test and build every module
         run: |
+          # Build from /repo, the path ./build.sh uses. Cargo hashes the absolute path of the patched
+          # crates in vendor/ into the build, so building from another path gives different bytes.
+          sudo mkdir -p /repo && sudo mount --bind "$GITHUB_WORKSPACE" /repo && cd /repo
           mkdir -p dist
           for m in */; do
             m=${m%/}
