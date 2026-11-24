@@ -1,0 +1,32 @@
+[package]
+name = "neblex-spreadsheet-calc"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_json = { version = "1", features = ["preserve_order"] }
+base64 = "0.22"
+# IronCalc (MIT or Apache-2.0), an open-source spreadsheet engine; mock_time lets the module set
+# the time TODAY() and NOW() return, since the sandbox has no clock.
+ironcalc = { version = "0.9", features = ["mock_time"] }
+ironcalc_base = { version = "0.9", features = ["mock_time"] }
+chrono = { version = "0.4", default-features = false, features = ["std"] }
+getrandom = "0.3"
+
+# Patched copies of crates that otherwise import JavaScript functions on wasm32; see ../vendor/README.md.
+[patch.crates-io]
+ironcalc_base = { path = "../vendor/ironcalc_base-0.9.1" }
+chrono = { path = "../vendor/chrono-0.4.45" }
+iana-time-zone = { path = "../vendor/iana-time-zone-0.1.65" }
+getrandom = { path = "../vendor/getrandom-0.4.3" }
+getrandom03 = { path = "../vendor/getrandom-0.3.4", package = "getrandom" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

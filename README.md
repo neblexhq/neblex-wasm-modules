@@ -4,7 +4,7 @@
 
 Sandboxed WebAssembly (WASM) modules for [Neblex Integration Fabric](https://www.neblex.com/integration-fabric). A module adds custom logic to an integration flow, such as parsing a file format or validating data, without running unreviewed code on your servers. Each module gets JSON in, returns JSON out, and cannot reach the network, the file system or anything else outside its own memory.
 
-This repository has a starter template and twenty-four ready-to-use modules, all written in Rust.
+This repository has a starter template and ready-to-use modules, all written in Rust.
 
 ### Turn unstructured data into records
 
@@ -49,6 +49,14 @@ This repository has a starter template and twenty-four ready-to-use modules, all
 |---|---|---|
 | [address-standardizer](address-standardizer) | Standardizes US and Canadian addresses USPS-style (suffixes, directions, units, states, ZIP and postal codes) and country names; formats, doesn't verify | about 125 KB |
 | [identifier-validator](identifier-validator) | Validates and normalizes IBANs, EU and UK VAT number formats, GTIN/EAN/UPC barcodes, US ABA routing numbers and LEIs on each record | about 105 KB |
+| [json-schema-validator](json-schema-validator) | Checks records against a JSON Schema (drafts 4 to 2020-12, with formats) and lists every problem with its field, for data contracts on payloads and files | about 2.4 MB |
+
+### Run business rules and calculations
+
+| Module | What it does | Size |
+|---|---|---|
+| [decision-table](decision-table) | Evaluates decision tables for pricing, discounts, approvals and routing, with first-match or collect-all rules; reads tables in the open JDM format | about 1.7 MB |
+| [spreadsheet-calc](spreadsheet-calc) | Recalculates an .xlsx workbook (or sheets defined in JSON) with values from each record and returns the cells you name, so a pricing or commission spreadsheet runs as a flow step | about 2.9 MB |
 
 ### Start your own
 
@@ -56,7 +64,7 @@ This repository has a starter template and twenty-four ready-to-use modules, all
 |---|---|---|
 | [template](template) | Minimal module to copy when writing your own | about 60 KB |
 
-Each module works by rules, patterns and check digits, so results are repeatable and cost nothing per record. They handle predictable formats; route what they flag or can't read to an AI step or a person.
+Each module works by rules, patterns, check digits or formulas, so results are repeatable and cost nothing per record. They handle predictable formats; route what they flag or can't read to an AI step or a person.
 
 ## Download
 
@@ -87,7 +95,7 @@ A Neblex module is a core WebAssembly module (not a component) that:
 
 The input is the step's JSON (one record or an array of records). The output must be valid JSON. The modules here pass each record through and add their results as new fields, so later steps in the flow can filter or route on them.
 
-Neblex accepts modules up to at least 3 MB, so there is room for a library when it does the job better than hand-written code. Smaller modules start faster, so leave out crates and features you don't use. The modules here are 60 to 260 KB.
+Neblex accepts modules up to at least 3 MB, so there is room for a library when it does the job better than hand-written code. Smaller modules start faster, so leave out crates and features you don't use. Most modules here are 60 to 260 KB; decision-table, json-schema-validator and spreadsheet-calc carry a full engine and are 1.5 to 3 MB. A few crates they use expect a browser, so [vendor](vendor) holds copies patched to need nothing from the host.
 
 ## Build
 
