@@ -2,6 +2,8 @@
 
 Turns HTML into clean text or Markdown: HTML emails, web pages, rich-text fields from a CRM or help desk, and HTML descriptions in product feeds. It keeps the structure that matters (paragraphs, headings, lists, table rows, links) and drops what doesn't (scripts, styles, tracking pixels, comments), so the result is ready for a ticket, a log, a search index or an AI step.
 
+Neblex also converts HTML to text or Markdown in its built-in Text step. Use this module when you want to change the conversion rules in code.
+
 ## Input
 
 One record or an array of records, each with the HTML:

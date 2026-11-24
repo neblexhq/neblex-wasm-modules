@@ -2,6 +2,8 @@
 
 Turns fixed-width (positional) text files into records: mainframe extracts, bank and payment files, legacy ERP exports and other formats where each field sits at a set column position instead of between commas. It handles files that mix header, detail and trailer lines, implied decimals and COBOL signed numbers.
 
+Neblex also reads fixed-width files with its built-in ExtractFile step. Use this module for files that mix header, detail and trailer lines, or that use implied decimals or COBOL signed numbers.
+
 ## Input
 
 One record or an array of records. Each record holds the file text and a `_layout` that describes it:

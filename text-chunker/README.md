@@ -2,6 +2,8 @@
 
 Splits long text, such as policies, manuals, knowledge-base articles, email threads or text from `pdf-to-json`, into overlapping chunks ready to embed and store in a vector database for retrieval (RAG). Chunks follow the document's structure: they break at Markdown headings, paragraphs, list items and sentences, never mid-word unless a single word is longer than a chunk, and each chunk carries the heading of its section.
 
+Neblex also has a built-in ChunkText step. Use this module when you want chunks that carry their section heading, or to change the splitting rules in code.
+
 ## Input
 
 One record or an array of records:

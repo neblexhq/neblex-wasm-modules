@@ -1,0 +1,5 @@
+# Changes to how modules are built and released need a maintainer's review.
+/vendor/ @adan-potyondy
+/.github/ @adan-potyondy
+/build.sh @adan-potyondy
+/test/contract.py @adan-potyondy

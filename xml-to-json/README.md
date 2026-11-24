@@ -2,6 +2,8 @@
 
 Converts XML documents into JSON a flow can work with: ERP messages such as Infor ION BODs, SOAP responses, older APIs and exports, and XML bank or supplier files. It can return the whole document, or one record per repeating element (one per order line, say) with header fields copied onto each record.
 
+Neblex also has built-in JsonConvert and Xml steps (XPath, XSLT and XSD validation). Use this module to get one record per repeating element, with header fields copied onto each record.
+
 ## Input
 
 One record or an array of records, each with the XML text and optional `_options`:

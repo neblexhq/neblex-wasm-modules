@@ -2,6 +2,8 @@
 
 Turns almost-JSON into valid JSON. AI models asked for JSON often wrap it in prose or a code fence, use single quotes or Python's `True` and `None`, leave trailing commas, or stop mid-object when they hit a token limit. A strict JSON step rejects all of that. This module repairs it and lists every fix, so you can decide whether to trust the result.
 
+Neblex also pulls JSON out of text in its built-in Text step. Use this module to repair almost-JSON (single quotes, trailing commas, cut-off output) and get a list of every fix.
+
 ## Input
 
 One record or an array of records, each with the text to repair:

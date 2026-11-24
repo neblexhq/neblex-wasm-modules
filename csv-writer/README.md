@@ -2,6 +2,8 @@
 
 Writes records as CSV text with the layout the receiving system expects: any delimiter, decimal commas for European spreadsheets, chosen columns and headers, nested fields, a byte-order mark so Excel reads accents correctly, and Windows or Unix line endings. Text that a spreadsheet would run as a formula is neutralized by default.
 
+Neblex also writes CSV files with its built-in ComposeFile step. Use this module for decimal commas, chosen or nested columns, or protection against spreadsheet formulas.
+
 ## Input
 
 One record holding the rows to write:

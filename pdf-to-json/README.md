@@ -2,6 +2,8 @@
 
 Extracts the text and metadata from a PDF so the rest of the flow can work with it as JSON: read an invoice total, route a document by its title, or pass the text to an AI step.
 
+Neblex also has a built-in ReadDocument step that reads PDF, Word, PowerPoint and Excel files; it is the first choice for most documents. Use this module as a starting point when you need to change how PDF text is extracted.
+
 ## Input
 
 Any JSON that contains the PDF as base64. The module finds the first string that starts with `JVBERi` (base64 for `%PDF`) or `data:application/pdf;base64,`, wherever it sits in the input.

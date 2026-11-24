@@ -1,0 +1,28 @@
+name: Request a built-in step
+description: Ask for a module to become a built-in Neblex step.
+title: "[Built-in step] "
+labels: ["enhancement"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Module
+      placeholder: spreadsheet-calc
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why built in?
+      description: For example the step UI, support, or the people on your team who would use it.
+    validations:
+      required: true
+  - type: textarea
+    id: use
+    attributes:
+      label: How you use it
+      description: The flows it's in and roughly how often they run.
+  - type: textarea
+    id: changes
+    attributes:
+      label: Anything it should do differently as a built-in step

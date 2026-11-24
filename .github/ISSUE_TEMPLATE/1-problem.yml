@@ -1,0 +1,50 @@
+name: Report a problem
+description: A module gives an error or a wrong result.
+labels: ["bug"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Module
+      placeholder: csv-cleaner
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Release
+      description: The release you downloaded the module from, or "built from source" with the commit.
+      placeholder: v0.9.1
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Input
+      description: The JSON the module received. Remove or replace any personal or confidential data first.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: What came back
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where it ran
+      options:
+        - Neblex cloud
+        - Neblex on-premises runtime
+        - Locally (test/call.py or another WebAssembly runtime)
+    validations:
+      required: true

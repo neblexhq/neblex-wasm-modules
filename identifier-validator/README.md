@@ -2,6 +2,8 @@
 
 Validates and normalizes business identifiers on each record before they reach your ERP, payment run or product catalog. It catches typos and malformed values at the start of a flow, where they are cheap to fix.
 
+Neblex also checks IBAN, GTIN, LEI and ABA numbers with the validators in its built-in Text step. Use this module for EU and UK VAT number formats, or to get normalized values and extra details back.
+
 | Type | What is checked | Extra output |
 |---|---|---|
 | `iban` | Country, length for that country, ISO 7064 MOD 97-10 check digits | `formatted` (groups of four), `country` |

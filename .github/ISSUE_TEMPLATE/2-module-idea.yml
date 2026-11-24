@@ -1,0 +1,39 @@
+name: Suggest a module
+description: A format, identifier or business rule a module could handle.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What do you need to do in a flow, and why doesn't an existing module or built-in step cover it?
+    validations:
+      required: true
+  - type: textarea
+    id: example-input
+    attributes:
+      label: Example input
+      description: A realistic example, with personal or confidential data removed.
+    validations:
+      required: true
+  - type: textarea
+    id: example-output
+    attributes:
+      label: The output you'd want
+    validations:
+      required: true
+  - type: input
+    id: systems
+    attributes:
+      label: Systems or formats involved
+      placeholder: e.g. an ERP export, a bank file format, a partner's API
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you like to build it?
+      options:
+        - "No, I'm suggesting it"
+        - Yes, I'd like to open a pull request
+        - Maybe, with some guidance
+    validations:
+      required: true

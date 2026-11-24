@@ -2,6 +2,8 @@
 
 Evaluates a decision table on each record: discount and pricing rules, approval thresholds, routing, shipping options or risk flags, kept as data instead of code. The people who own the rules can read and change the table, and every result names the rule that produced it.
 
+Neblex also has a built-in Rules step for rules with fixed results, such as "a total of 1000 or more sets the tier to gold". Use this module when cells need ranges or lists (`[1000..9999]`, `"DE", "FR"`), when results are calculated (`list_price * 0.8`), or when your tables are in the JDM format.
+
 Conditions use the ZEN expression language (`> 100`, `[1000..9999]`, `"DE", "FR"`, `endsWith($, "@example.com")`). Tables in the JDM format of the open-source [ZEN engine](https://github.com/gorules/zen) work as they are, so you can also design them in a JDM editor and paste the JSON.
 
 ## Input

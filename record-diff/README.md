@@ -2,6 +2,8 @@
 
 Compares an incoming record with the version you already have and returns only what changed. Sync flows can then skip records that didn't change, update just the changed fields, keep an audit trail of old and new values, or route a change to a particular field (a new owner, a price) down its own path. Skipping no-op writes also saves API quota on the target system.
 
+Neblex also has a built-in Compare step that compares two data sets by key. Use this module to compare the stored and incoming versions of a single record and get only the changed fields back as a patch.
+
 ## Input
 
 One record or an array of records, each holding the stored and the incoming version:

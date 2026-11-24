@@ -2,6 +2,8 @@
 
 Splits a scanned GS1 barcode into its fields: product code (GTIN), batch or lot, expiry and other dates, serial number, weights, shipping container code (SSCC) and more. It reads what a scanner sends for GS1-128, GS1 DataMatrix and GS1 QR codes, and the human-readable text printed under them. Check digits are verified.
 
+Neblex's built-in Barcode step reads barcodes from images. This module decodes the GS1 data inside a scan, whether it comes from that step or from a handheld scanner.
+
 ## Input
 
 One record or an array of records, each with one scan:

@@ -84,6 +84,14 @@ Integration flows often need one step that no built-in step covers: a niche file
 - The runtime limits its memory, compute and run time.
 - The same `.wasm` file runs in the Neblex cloud and on the on-premises runtime, so records from internal systems can be processed inside your network.
 
+## Modules and built-in steps
+
+Neblex adopts modules from this repository as built-in steps when they prove widely useful or customers ask for them. A built-in step has the full Neblex step UI and is supported through your Neblex subscription.
+
+The module stays here as open source. Use it when you need behavior the built-in step doesn't have: fork it, change the rules, build it with `./build.sh` and upload your version under its own name. It runs in the same sandbox as every module, with no network, file or host access, so changing the code doesn't change what it can reach. Where a module has a built-in counterpart, its README says so and explains when the module is the better choice.
+
+We help with the modules on a best-effort basis. To report a problem, suggest a module, or ask for one to become a built-in step, [open an issue](https://github.com/neblexhq/neblex-wasm-modules/issues/new/choose). Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## The module contract
 
 A Neblex module is a core WebAssembly module (not a component) that:
@@ -123,9 +131,11 @@ docker run --rm -v "$PWD":/w -w /w python:3.12-slim sh -c \
 2. Give it a name (we use the folder name, such as `email-parser`) and upload the `.wasm` file from `dist/`. Neblex validates the module before saving it.
 3. In a flow, add the module like any integration and choose its **Run module** operation. It needs no connection. Map the fields it should receive, including any `_options` or `_layout`, in the step's input; each module's `test/sample.json` shows a complete input.
 
-## Write your own
+## Customize or write your own
 
-Copy `template/`, rename the package in `Cargo.toml`, and replace the `transform` function in `src/lib.rs`. Use `serde_json` for input and output, and return an error as JSON (for example `{"ok": false, "error": "..."}`) instead of panicking.
+To change a module, fork this repository, edit the module's `src/lib.rs`, run its tests (`cargo test --lib` in the module folder) and build it with `./build.sh <module>`. Upload it to Neblex under a name of your own, such as `acme-pii-redactor`, so it isn't mistaken for the published version. The checksums and build attestations in our releases cover only our own files.
+
+To write a new module, copy `template/`, rename the package in `Cargo.toml`, and replace the `transform` function in `src/lib.rs`. Use `serde_json` for input and output, and return an error as JSON (for example `{"ok": false, "error": "..."}`) instead of panicking.
 
 ## Links
 

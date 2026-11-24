@@ -2,6 +2,8 @@
 
 Reads the CSV files real systems produce into clean records: semicolon- or tab-separated exports, files that start with a title or a "generated on" line, a totals row at the bottom, European decimal commas, a byte-order mark, quoted fields with line breaks, blank or duplicate headers, and rows with too few or too many fields. It works out the delimiter, header row and number style on its own and reports everything it skipped or couldn't read.
 
+Neblex also reads CSV files with its built-in ExtractFile step. Use this module for messy exports where the delimiter, header row or number style isn't known in advance, or that include title and totals rows.
+
 ## Input
 
 One record or an array of records, each with the file text:

@@ -2,6 +2,8 @@
 
 Decodes JSON Web Tokens (JWT), such as OAuth access tokens, OpenID Connect ID tokens and webhook tokens, into their header and claims, with readable dates and an expiry check. Use it to route or log by user, tenant or scope, to spot tokens that are about to expire, or to debug an authentication step.
 
+Neblex verifies tokens, signatures included, in its built-in Crypto step; use that step wherever access depends on a token. Use this module to read a token's claims and expiry without its key.
+
 **This module does not verify signatures.** `signature_verified` is always `false`. Decoding shows what a token claims, not that the claims are true: never grant access based on this output alone. Verify tokens with the issuer's keys in the system that accepts them.
 
 ## Input

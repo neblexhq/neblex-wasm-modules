@@ -2,6 +2,8 @@
 
 Removes personal data from free text, such as support emails, ticket descriptions, chat messages or call notes, before the text goes to an AI model, a log, an analytics tool or a third-party system. It finds email addresses, phone numbers, payment card numbers, US Social Security numbers, IBANs, IP addresses and any names or terms you list, and replaces them in place.
 
+Neblex also has a built-in Redact step for masking personal data. Use this module when you want to change the detection rules in code, or to replace names and terms you list.
+
 ## Input
 
 One record or an array of records:

@@ -2,6 +2,8 @@
 
 Standardizes postal addresses in the style of USPS Publication 28 before they're matched, deduplicated or loaded: street suffixes and directions abbreviated (Street → ST, North → N), unit designators standardized (Apartment → APT, Suite → STE), punctuation removed, states and provinces turned into codes, ZIP and Canadian postal codes formatted, and country names turned into ISO codes. Standardized addresses match each other far more often, which is what duplicate detection and address matching need.
 
+Neblex also normalizes countries, phone numbers and other fields in its built-in Normalize step. Use this module for USPS-style street, unit, state and ZIP formatting of US and Canadian addresses.
+
 It formats addresses; it does not check that an address exists or is deliverable. For that, use a postal verification service.
 
 ## Input
