@@ -1,0 +1,68 @@
+{
+  "order_id": "PO-10042",
+  "email": "buyer.example.com",
+  "ship_date": "2026-12-01",
+  "currency": "CAD",
+  "lines": [
+    {
+      "sku": "AB-100",
+      "qty": 3
+    },
+    {
+      "sku": "CD-7",
+      "qty": 0
+    }
+  ],
+  "_options": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "order_id",
+        "email",
+        "lines"
+      ],
+      "properties": {
+        "order_id": {
+          "type": "string",
+          "pattern": "^PO-[0-9]{4,}$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "ship_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "currency": {
+          "enum": [
+            "USD",
+            "EUR",
+            "GBP"
+          ]
+        },
+        "lines": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "sku",
+              "qty"
+            ],
+            "properties": {
+              "sku": {
+                "type": "string",
+                "minLength": 3
+              },
+              "qty": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

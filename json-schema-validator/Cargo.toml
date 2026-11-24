@@ -1,0 +1,25 @@
+[package]
+name = "neblex-json-schema-validator"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_json = "1"
+# No default features: no HTTP or file lookups for $ref (the sandbox has neither).
+jsonschema = { version = "0.63", default-features = false }
+getrandom = "0.3"
+
+# Patched copies of crates that otherwise import JavaScript functions on wasm32; see ../vendor/README.md.
+[patch.crates-io]
+getrandom = { path = "../vendor/getrandom-0.4.3" }
+getrandom03 = { path = "../vendor/getrandom-0.3.4", package = "getrandom" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
