@@ -6,7 +6,7 @@
 # match the release files built on GitHub.
 set -e
 cd "$(dirname "$0")"
-mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser pii-redactor csv-cleaner text-chunker record-diff html-to-text key-value-extractor address-standardizer uom-converter log-parser ics-parser vcard-parser user-agent-parser csv-writer yaml-to-json jwt-decoder json-schema-validator decision-table spreadsheet-calc language-detector phone-number sparkplug-b-decoder}"
+mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser pii-redactor csv-cleaner text-chunker record-diff html-to-text key-value-extractor address-standardizer uom-converter log-parser ics-parser vcard-parser user-agent-parser csv-writer yaml-to-json jwt-decoder json-schema-validator decision-table spreadsheet-calc language-detector phone-number sparkplug-b-decoder parquet-reader}"
 mkdir -p dist
 for m in $mods; do
   # The whole repository is mounted so modules can use the patched crates in vendor/.
