@@ -1,0 +1,6 @@
+[
+  { "contact": "Dana Reyes", "phone": "(415) 555-2671 x305", "_options": { "region": "US" } },
+  { "contact": "Tom Hale", "phone": "07400 123456", "_options": { "region": "GB" } },
+  { "contact": "Ines Weber", "phone": "+49 30 1234567" },
+  { "contact": "Bad row", "phone": "+1 123 456 7890" }
+]
