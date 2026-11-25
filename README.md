@@ -21,6 +21,7 @@ This repository has a starter template and ready-to-use modules, all written in 
 | [user-agent-parser](user-agent-parser) | Reads browser, OS, device type and engine from user-agent strings, and flags bots and HTTP libraries | about 100 KB |
 | [log-parser](log-parser) | Parses Apache/nginx access logs, syslog (RFC 3164 and 5424), key=value and JSON log lines into records | about 135 KB |
 | [text-chunker](text-chunker) | Splits long text into overlapping chunks along headings, paragraphs and sentences, with stable IDs, ready to embed for retrieval (RAG) | about 100 KB |
+| [language-detector](language-detector) | Detects the language and script of tickets, emails and reviews (69 languages) with a confidence score, to route them without an AI call | about 350 KB |
 
 ### Read and write file and message formats
 
@@ -34,6 +35,7 @@ This repository has a starter template and ready-to-use modules, all written in 
 | [yaml-to-json](yaml-to-json) | Converts YAML (config files, API specs, front matter) to JSON, including anchors, merge keys and files with several documents | about 255 KB |
 | [uom-converter](uom-converter) | Converts quantities between units of measure and your own pack sizes (case, box, pallet), chained as needed | about 125 KB |
 | [gs1-barcode-parser](gs1-barcode-parser) | Splits GS1-128, DataMatrix and QR barcode scans into GTIN, batch, expiry, serial, weights and SSCC, with check digits verified | about 100 KB |
+| [sparkplug-b-decoder](sparkplug-b-decoder) | Decodes Sparkplug B MQTT messages from PLC gateways and SCADA systems into metrics (all data types, aliases, DataSets, Templates) and encodes NCMD/DCMD commands | about 215 KB |
 
 ### Protect and compare
 
@@ -50,6 +52,7 @@ This repository has a starter template and ready-to-use modules, all written in 
 | [address-standardizer](address-standardizer) | Standardizes US and Canadian addresses USPS-style (suffixes, directions, units, states, ZIP and postal codes) and country names; formats, doesn't verify | about 125 KB |
 | [identifier-validator](identifier-validator) | Validates and normalizes IBANs, EU and UK VAT number formats, GTIN/EAN/UPC barcodes, US ABA routing numbers and LEIs on each record | about 105 KB |
 | [json-schema-validator](json-schema-validator) | Checks records against a JSON Schema (drafts 4 to 2020-12, with formats) and lists every problem with its field, for data contracts on payloads and files | about 2.4 MB |
+| [phone-number](phone-number) | Validates phone numbers against each country's numbering plan and adds the country, type (mobile, landline, toll-free, VoIP), extension and E.164/national formats | about 2.0 MB |
 
 ### Run business rules and calculations
 

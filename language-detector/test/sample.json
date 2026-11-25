@@ -1,0 +1,5 @@
+[
+  { "ticket": 1041, "text": "Bonjour, ma commande est arrivée endommagée hier et je voudrais un remplacement dès que possible." },
+  { "ticket": 1042, "text": "Hola, no puedo iniciar sesión.", "_options": { "languages": ["en", "es", "fr", "de"] } },
+  { "ticket": 1043, "text": "Siparişim hasarlı geldi ve en kısa sürede değiştirilmesini istiyorum.", "_options": { "languages": ["en", "es", "fr", "de"] } }
+]
