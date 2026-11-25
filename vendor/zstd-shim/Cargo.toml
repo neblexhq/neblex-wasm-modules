@@ -1,0 +1,11 @@
+# Not the published zstd crate: a stand-in with the same name and the few functions the
+# parquet crate calls, backed by ruzstd (pure Rust). See vendor/README.md.
+[package]
+name = "zstd"
+version = "0.14.5"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[dependencies]
+ruzstd = { version = "0.9", default-features = false, features = ["std"] }
