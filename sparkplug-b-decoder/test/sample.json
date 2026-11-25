@@ -1,0 +1,3 @@
+[
+  { "topic": "spBv1.0/Plant1/DDATA/Edge01/Extruder2", "payload": "COPY37SrMxIPEAQY/9fftKszUPn///8PEgcQAmUAAJJCEgsQY2kAAAAAAADwPxgC", "_options": { "rows": true, "last_seq": 1, "aliases": { "2": { "name": "Line1/Temp", "datatype": "Float" }, "4": { "name": "Line1/Offset", "datatype": "Int8" } } } }
+]

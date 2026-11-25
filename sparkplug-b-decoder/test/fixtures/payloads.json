@@ -1,0 +1,38 @@
+[
+ {
+  "key": "nbirth_scalars",
+  "topic": "spBv1.0/Plant1/NBIRTH/Edge01",
+  "payload": "CPvQ37SrMxINCgViZFNlcRAAIARYAxIcChROb2RlIENvbnRyb2wvUmViaXJ0aBABIAtwABIVCgpMaW5lMS9UZW1wEAIgCWUAAJFCElwKDkxpbmUxL1ByZXNzdXJlEAMgCko9CgdlbmdVbml0CgdlbmdIaWdoCg1kb2N1bWVudGF0aW9uEgcIDEIDa1BhEgsICjEAAAAAAMBiQBIECAwQAWnNzMzMzFRZQBIYCgxMaW5lMS9PZmZzZXQQBCABUPv///8PEhcKC0xpbmUxL0RlbHRhEAUgAlDU/f//DxIXCgtMaW5lMS9Db3VudBAGIANQkN37/w8SHAoLTGluZTEvVG90YWwQByAEWICc6K/t/////wESEwoKTGluZTEvTW9kZRAIIAVQyAESFAoKTGluZTEvUG9ydBAJIAZQ6PsDEhgKDExpbmUxL1NlcmlhbBAKIAdYgNCs8w4SHQoMTGluZTEvRW5lcmd5EAsgCFiAgKConJS25vkBEhUKDUxpbmUxL1J1bm5pbmcQDCALcAESHAoMTGluZTEvUmVjaXBlEA0gDHoIUFZDLTQwbW0SHAoPTGluZTEvTGFzdFN0YXJ0EA4gDViAo/2vqzMSJQoLTGluZTEvTm90ZXMQDyAOehLDlmx3ZWNoc2VsIGbDpGxsaWcSNwoLTGluZTEvQmF0Y2gQECAPeiQwZjhlNGI5YS0zYzFkLTRlNWYtOWE3Yi0xYzJkM2U0ZjVhNmISFgoJTGluZTEvUmF3EBEgEYIBBAAB/v8SEwoLTGluZTEvQWxhcm0QEiALOAEYAA==",
+  "note": "every scalar type, Java sign extension"
+ },
+ {
+  "key": "dbirth_complex",
+  "topic": "spBv1.0/Plant1/DBIRTH/Edge01/Extruder2",
+  "payload": "CPvQ37SrMxIXCgtab25lcy9JbnQ4cxAUIBaCAQP/AH8SGQoMWm9uZXMvSW50MTZzEBUgF4IBBACA/38SIAoLWm9uZXMvVGVtcHMQFiAeggEMAACkQQAAqkEAAGDAEiYKDVpvbmVzL0RvdWJsZXMQFyAfggEQAAAAAAAA+D8AAAAAAAACwBIeCg1ab25lcy9VSW50MzJzEBggHIIBCAAAAAD/////EiUKDFpvbmVzL0ludDY0cxAZIBmCARD////////f/yoAAAAAAAAAEhsKDFpvbmVzL1ZhbHZlcxAaICCCAQYMAAAANNASJgoLWm9uZXMvTmFtZXMQGyAhggESTm9ydGgAU291dGgAAEVhc3QAEiQKC1pvbmVzL1RpbWVzEBwgIoIBEIBR/7WaAQAAAOiXtpoBAAASWQoOTGluZTEvU2NoZWR1bGUQHSAQigFCCAMSBXNoaWZ0EgZ0YXJnZXQSBmFjdGl2ZRgMGAMYCyIOCgMyAUEKAwiwCQoCKAEiEQoDMgFCCgYI/////w8KAigAElEKC0xpbmUxL01vdG9yEB4gE5IBPQoDMS4yEgwKBVNwZWVkIAJQqgsSDQoHRmF1bHRlZCALcAAaEAoHcmF0ZWRLdxAJLQAA8EAiBU1vdG9yKAAYAQ==",
+  "note": "arrays (spec), DataSet, Template"
+ },
+ {
+  "key": "ddata_aliases",
+  "topic": "spBv1.0/Plant1/DDATA/Edge01/Extruder2",
+  "payload": "COPY37SrMxIPEAQY/9fftKszUPn///8PEgcQAmUAAJJCEgsQY2kAAAAAAADwPxgC",
+  "note": "aliases only"
+ },
+ {
+  "key": "python_arrays",
+  "topic": "spBv1.0/Plant1/NDATA/Edge01",
+  "payload": "CPvQ37SrMxIVCgZWYWx2ZXMQASAgggEGCQAAAAEBEiAKBU5hbWVzEAIgIYIBEjQxNjIANWE2ZjZlNjUyMDMyABgD",
+  "note": "Tahu Python array layout"
+ },
+ {
+  "key": "ndeath",
+  "topic": "spBv1.0/Plant1/NDEATH/Edge01",
+  "payload": "CPvQ37SrMxILCgViZFNlcSAEWAM=",
+  "note": "death certificate"
+ },
+ {
+  "key": "flags_body",
+  "topic": "spBv1.0/Plant1/NDATA/Edge01",
+  "payload": "CPvQ37SrMxIVCgRIaXN0GJv827SrMyADKAEwAVAFGAkiCGN1c3RvbS0xKgVoZWxsbw==",
+  "note": "flags, uuid, body"
+ }
+]
