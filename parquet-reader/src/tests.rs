@@ -72,6 +72,21 @@ fn decimals_as_numbers() {
 }
 
 #[test]
+fn decimal_text() {
+    use parquet::data_type::{ByteArray, Decimal};
+    let t = |d: Decimal| decimal_string(&d).unwrap();
+    assert_eq!(t(Decimal::from_i32(12345, 5, 3)), "12.345");
+    assert_eq!(t(Decimal::from_i32(-5, 5, 2)), "-0.05");
+    assert_eq!(t(Decimal::from_i32(0, 5, 2)), "0.00");
+    assert_eq!(t(Decimal::from_i64(-7, 10, 0)), "-7");
+    assert_eq!(t(Decimal::from_i64(i64::MAX, 19, 0)), "9223372036854775807");
+    let big = 12345678901234567890123456789012345678i128;
+    assert_eq!(t(Decimal::from_bytes(ByteArray::from(big.to_be_bytes().to_vec()), 38, 4)), "1234567890123456789012345678901234.5678");
+    assert_eq!(t(Decimal::from_bytes(ByteArray::from(vec![0xff, 0xff]), 4, 1)), "-0.1");
+    assert_eq!(decimal_string(&Decimal::from_bytes(ByteArray::from(vec![1u8; 17]), 38, 0)), None);
+}
+
+#[test]
 fn select_columns() {
     let out = read("orders-zstd.parquet", json!({ "columns": ["ship_to", "order_id"] }));
     assert_eq!(out["rows"][0], json!({ "ship_to": { "city": "Springfield", "zip": "01101" }, "order_id": 1001 }));

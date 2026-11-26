@@ -378,12 +378,34 @@ fn field_json(f: &Field, t: Option<&Type>, dec_num: bool) -> Value {
             Some(LogicalType::Timestamp(ts)) => iso(*v as i128 * unit_nanos(&ts.unit), ts.is_adjusted_to_u_t_c).unwrap_or(json!(v)),
             _ => f.to_json_value(),
         },
-        Field::Decimal(_) if dec_num => match f.to_json_value() {
-            Value::String(s) => s.parse::<f64>().ok().and_then(serde_json::Number::from_f64).map(Value::Number).unwrap_or(Value::String(s)),
-            v => v,
+        Field::Decimal(d) => match decimal_string(d) {
+            Some(s) if dec_num => s.parse::<f64>().ok().and_then(serde_json::Number::from_f64).map(Value::Number).unwrap_or(Value::String(s)),
+            Some(s) => Value::String(s),
+            None => Value::Null,
         },
         _ => f.to_json_value(),
     }
+}
+
+/// Exact decimal text: the unscaled big-endian value with the point placed `scale` digits from
+/// the right ("12.345", "-0.05", "7" for scale 0). The parquet crate's own formatter leaves a
+/// trailing "." for scale 0 and asserts on unusual metadata, so it isn't used. None for values
+/// wider than 16 bytes, which no writer produces for precision up to 38.
+fn decimal_string(d: &parquet::data_type::Decimal) -> Option<String> {
+    let bytes = d.data();
+    if bytes.is_empty() || bytes.len() > 16 {
+        return None;
+    }
+    let fill = if bytes[0] & 0x80 != 0 { 0xff } else { 0 };
+    let mut b = [fill; 16];
+    b[16 - bytes.len()..].copy_from_slice(bytes);
+    let n = i128::from_be_bytes(b);
+    let scale = d.scale().max(0) as usize;
+    let digits = n.unsigned_abs().to_string();
+    let digits = if digits.len() <= scale { format!("{}{digits}", "0".repeat(scale + 1 - digits.len())) } else { digits };
+    let (int, frac) = digits.split_at(digits.len() - scale);
+    let sign = if n < 0 { "-" } else { "" };
+    Some(if scale == 0 { format!("{sign}{int}") } else { format!("{sign}{int}.{frac}") })
 }
 
 fn unit_nanos(u: &TimeUnit) -> i128 {
