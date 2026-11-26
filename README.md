@@ -36,7 +36,8 @@ This repository has a starter template and ready-to-use modules, all written in 
 | [uom-converter](uom-converter) | Converts quantities between units of measure and your own pack sizes (case, box, pallet), chained as needed | about 125 KB |
 | [gs1-barcode-parser](gs1-barcode-parser) | Splits GS1-128, DataMatrix and QR barcode scans into GTIN, batch, expiry, serial, weights and SSCC, with check digits verified | about 100 KB |
 | [sparkplug-b-decoder](sparkplug-b-decoder) | Decodes Sparkplug B MQTT messages from PLC gateways and SCADA systems into metrics (all data types, aliases, DataSets, Templates) and encodes NCMD/DCMD commands | about 215 KB |
-| [parquet-reader](parquet-reader) | Reads Parquet files from data warehouses, data lakes and analytics tools (Snappy, Gzip, Zstandard, LZ4, Brotli) into records with column types, page by page | about 2.1 MB |
+| [parquet-reader](parquet-reader) | Reads Parquet files from data warehouses, data lakes and analytics tools (Snappy, Gzip, Zstandard, LZ4, Brotli) into records with column types, page by page | about 2.2 MB |
+| [parquet-writer](parquet-writer) | Writes records to a Parquet file with inferred or set column types (exact decimals, dates, timestamps), compressed with Snappy, Gzip, Zstandard, LZ4 or Brotli | about 2.3 MB |
 
 ### Protect and compare
 
