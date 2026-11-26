@@ -3,14 +3,15 @@
 # Usage: ./build.sh [module ...]
 # Build paths are remapped to fixed names and the build always runs on x86-64 Linux (emulated
 # on other machines), so the same source and Rust version give byte-identical files that
-# match the release files built on GitHub.
+# match the release files built on GitHub. A fixed CONST_RANDOM_SEED keeps hash seeds the same too.
 set -e
 cd "$(dirname "$0")"
 mods="${*:-template pdf-to-json identifier-validator fixed-width-parser fixed-width-writer xml-to-json json-repair text-extractor email-parser gs1-barcode-parser pii-redactor csv-cleaner text-chunker record-diff html-to-text key-value-extractor address-standardizer uom-converter log-parser ics-parser vcard-parser user-agent-parser csv-writer yaml-to-json jwt-decoder json-schema-validator decision-table spreadsheet-calc language-detector phone-number sparkplug-b-decoder parquet-reader parquet-writer}"
 mkdir -p dist
 for m in $mods; do
   # The whole repository is mounted so modules can use the patched crates in vendor/.
-  docker run --rm --platform linux/amd64 -v "$PWD":/repo -v cargo-cache-amd64:/usr/local/cargo/registry -w "/repo/$m" rust:1-slim \
+  # CONST_RANDOM_SEED: ahash (used by the parquet crate) bakes a random seed into each build unless it is set.
+  docker run --rm --platform linux/amd64 -e CONST_RANDOM_SEED=neblex-wasm-modules -v "$PWD":/repo -v cargo-cache-amd64:/usr/local/cargo/registry -w "/repo/$m" rust:1-slim \
     sh -c 'rustup target add wasm32-unknown-unknown >/dev/null 2>&1; RUSTFLAGS="--remap-path-prefix=$CARGO_HOME=/cargo --remap-path-prefix=$(dirname "$PWD")=/repo --remap-path-prefix=$PWD=/build" cargo build --release --locked --target wasm32-unknown-unknown --lib'
   f=$(ls "$m"/target/wasm32-unknown-unknown/release/*.wasm | head -1)
   cp "$f" "dist/$m.wasm"
