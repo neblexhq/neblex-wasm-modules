@@ -1,0 +1,32 @@
+[package]
+name = "parquet-writer"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_json = { version = "1", features = ["preserve_order"] }
+base64 = "0.22"
+
+parquet = { version = "60", default-features = false, features = ["snap", "flate2-zlib-rs", "lz4", "brotli", "zstd"] }
+chrono = { version = "0.4", default-features = false, features = ["alloc"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# zstd is a pure-Rust stand-in (the real crate binds to C); chrono and iana-time-zone are the
+# repository's no-JavaScript copies. See ../vendor/README.md.
+[patch.crates-io]
+zstd = { path = "../vendor/zstd-shim" }
+chrono = { path = "../vendor/chrono-0.4.45" }
+iana-time-zone = { path = "../vendor/iana-time-zone-0.1.65" }
+
+[dev-dependencies]
+# Tests read every written file back with parquet-reader from this repository.
+parquet-reader = { path = "../parquet-reader" }
